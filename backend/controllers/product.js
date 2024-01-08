@@ -5,9 +5,12 @@ const ErrorHandler = require('../util/errorHandler');
 exports.getAllProducts = async (req, res, next) => {
   try {
     const product = await Product.find();
-    res.status(200).json({ success: true, data: product });
+    if (product) {
+      res.status(200).json({ success: true, data: product });
+    } else {
+      next(new ErrorHandler('Products not found', 404));
+    }
   } catch (error) {
-    next(new ErrorHandler('Products not found', 404));
     next(error);
   }
 };
@@ -16,9 +19,12 @@ exports.getAllProducts = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   try {
     const product = await Product.create(req.body);
-    res.status(201).json({ success: true, data: product });
+    if (product) {
+      res.status(201).json({ success: true, data: product });
+    } else {
+      next(new ErrorHandler('Product not added', 400));
+    }
   } catch (error) {
-    next(new ErrorHandler('Product not found', 404));
     next(error);
   }
 };
