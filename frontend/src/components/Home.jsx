@@ -1,7 +1,24 @@
-import { Box, Button, Card, CardBody, CardFooter, Grid, GridItem, Heading, Image, SimpleGrid, Stack, VStack, Text } from '@chakra-ui/react';
-import React, { Fragment, useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
+  SimpleGrid,
+  Stack,
+  VStack,
+  Text,
+  ButtonGroup,
+  HStack,
+} from '@chakra-ui/react';
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
 
 import image1 from '../assets/1.jpg';
 import image2 from '../assets/react.svg';
@@ -13,36 +30,30 @@ import { Link } from 'react-router-dom';
 import { ProductCard } from '../components/index';
 import axios from 'axios';
 import productsData from './productsData';
-// import products from './products';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProducts } from '../actions/products';
+import SkeletonCard from './SkeletonCard';
 
-function Home() {
-  const product = [
-    {
-      id: '1hjkh',
-      image: image2,
-      name: 'Product Pic',
-      price: 1500,
-    },
-    {
-      id: '2klj',
-      image: image1,
-      name: 'Second Product',
-      price: 200,
-    },
-  ];
-  const [products, setProducts] = useState(productsData);
+const Home = () => {
+  const dispatch = useDispatch();
+  const { data, productCounts, loading } = useSelector((state) => state.product);
+  // const [products, setProducts] = useState([]);
+  // const [totalPages, setTotalPages] = useState(Math.ceil(productCounts / 8));
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // const nextPageHandler = () => {
+  //   setCurrentPage((currentPage) => currentPage + 1);
+  // };
+  // const previousPageHandler = () => {
+  //   setCurrentPage((currentPage) => currentPage - 1);
+  // };
+  // const currentPageHandler = (page) => {
+  //   setCurrentPage(page);
+  // };
 
   useEffect(() => {
-    // axios
-    //   .get('https://fakestoreapi.com/products')
-    //   .then((data) => {
-    //     setProducts(data.data);
-    //     // console.log(data.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }, []);
+    dispatch(getAllProducts(`http://127.0.0.1:4000/api/products?page=${currentPage}`));
+  }, [dispatch, currentPage]);
   return (
     <Fragment>
       <Stack direction={'row'} w={'full'} h={'70vh'} p={4} bgColor={'whitesmoke'}>
@@ -50,38 +61,33 @@ function Home() {
           <Heading size={'md'} alignSelf={'start'}>
             Categories
           </Heading>
-          <Link to={'products/category='}>
-            <Button variant={'link'} w={'full'}>
-              All
-            </Button>
-          </Link>
           <Link to={'products/category=food'}>
-            <Button variant={'link'} w={'full'}>
+            <Button variant={'ghost'} w={'full'} _hover={{ bgColor: 'orange.500', color: 'white' }}>
               Food
             </Button>
           </Link>
           <Link to={'products/category=electronics'}>
-            <Button variant={'link'} w={'full'}>
+            <Button variant={'ghost'} w={'full'} _hover={{ bgColor: 'orange.500', color: 'white' }}>
               Electronics
             </Button>
           </Link>
           <Link to={"products/category=men's clothing"}>
-            <Button variant={'link'} w={'full'}>
+            <Button variant={'ghost'} w={'full'} _hover={{ bgColor: 'orange.500', color: 'white' }}>
               Mens
             </Button>
           </Link>
           <Link to={"products/category=women's clothing"}>
-            <Button variant={'link'} w={'full'}>
+            <Button variant={'ghost'} w={'full'} _hover={{ bgColor: 'orange.500', color: 'white' }}>
               Womens
             </Button>
           </Link>
           <Link to={'products/category=jewelery'}>
-            <Button variant={'link'} w={'full'}>
+            <Button variant={'ghost'} w={'full'} _hover={{ bgColor: 'orange.500', color: 'white' }}>
               Jewelery
             </Button>
           </Link>
           <Link to={'products/category=electronics'}>
-            <Button variant={'link'} w={'full'}>
+            <Button variant={'ghost'} w={'full'} _hover={{ bgColor: 'orange.500', color: 'white' }}>
               Electronics
             </Button>
           </Link>
@@ -111,14 +117,33 @@ function Home() {
         <Heading size={'md'} w={'15%'} textAlign={'center'} mx={'auto'} borderBottom={'2px'}>
           Featured Products
         </Heading>
-        <SimpleGrid templateColumns={'repeat(auto-fill, minmax(240px, 1fr))'} spacing={8} p={10}>
-          {products.map((product) => (
-            <ProductCard product={product} />
-          ))}
+        <SimpleGrid templateColumns={'repeat(auto-fill, minmax(260px, 1fr))'} spacing={8} p={10}>
+          {loading
+            ? [...Array.from({ length: 4 }).keys()].map((v) => <SkeletonCard key={v} />)
+            : data && data.map((product, i) => <ProductCard key={product._id} product={product} />)}
         </SimpleGrid>
       </Box>
+
+      <ButtonGroup colorScheme='orange' p={4} size={'sm'} justifyContent={'center'} alignItems={'center'} mx={'auto'} w={'full'}>
+        <Button isDisabled={currentPage === 1 ? true : false} onClick={() => setCurrentPage((currentPage) => currentPage - 1)}>
+          <AiOutlineArrowLeft />
+        </Button>
+
+        {productCounts ? (
+          [...Array(Math.ceil(productCounts / 8)).keys()].map((p, i) => (
+            <Button key={i} isDisabled={i + 1 == currentPage ? true : false} onClick={() => setCurrentPage(i + 1)}>
+              {i + 1}
+            </Button>
+          ))
+        ) : (
+          <Button>{loading}</Button>
+        )}
+        <Button isDisabled={currentPage >= Math.ceil(productCounts / 8) ? true : false} onClick={() => setCurrentPage((currentPage) => currentPage + 1)}>
+          <AiOutlineArrowRight />
+        </Button>
+      </ButtonGroup>
     </Fragment>
   );
-}
+};
 
 export default Home;

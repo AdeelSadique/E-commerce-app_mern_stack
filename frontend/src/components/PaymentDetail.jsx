@@ -7,32 +7,32 @@ const PaymentDetail = ({ props }) => (
         Payment Details
       </Heading>
       <Heading textAlign={'center'} size={'md'}>
-        ID # 567873454
+        ID #{props.findProduct._id}
       </Heading>
     </HStack>
 
     <VStack>
       <Heading size={'sm'}>Choose Your Payment Method</Heading>
       <FormControl>
-        <RadioGroup>
+        <RadioGroup defaultValue={'0'} _checked={'0'} onClick={(e) => props.setPaymentMethod(e.target.value)}>
           <HStack w={'60'} justifyContent={'space-between'}>
             <FormLabel>Debit/Credit Card</FormLabel>
-            <Radio name='paymentMethod' value='debit' />
+            <Radio value={'2'} />
           </HStack>
           <HStack w={'60'} justifyContent={'space-between'}>
             <FormLabel>Easypesa/Jazzcash</FormLabel>
-            <Radio name='paymentMethod' value='easypesa' />
+            <Radio value={'1'} />
           </HStack>
           <HStack w={'60'} justifyContent={'space-between'}>
             <FormLabel>Cash on delivery</FormLabel>
-            <Radio name='paymentMethod' value='cashondelivery' />
+            <Radio value={'0'} />
           </HStack>
         </RadioGroup>
       </FormControl>
     </VStack>
 
     <VStack w={'full'} p={2} alignItems={'flex-end'}>
-      <Button onClick={() => props.setActiveStep(3)} colorScheme='orange'>
+      <Button onClick={() => props.newOrder()} colorScheme='orange'>
         Place Order
       </Button>
     </VStack>

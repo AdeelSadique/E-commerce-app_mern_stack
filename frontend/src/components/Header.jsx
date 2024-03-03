@@ -1,12 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Heading, IconButton, Image, Input, Stack } from '@chakra-ui/react';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  Avatar,
+  AvatarBadge,
+  Button,
+  Heading,
+  IconButton,
+  Image,
+  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Progress,
+  Stack,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react';
 import { MdLogin } from 'react-icons/md';
 import { FaCartArrowDown, FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { CgProfile } from 'react-icons/cg';
+import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import userContext from '../reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../actions/user';
+// import isAuth from './auth';
 
 function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [activePage, setActivePage] = useState({ home: true, products: false, aboutus: false, contactus: false });
   const [searchChange, setSearchChange] = useState('');
+  const { loading, data } = useSelector((state) => state.user);
 
   const activePageChacker = (path) => {
     if (path == '/') {
@@ -22,12 +48,43 @@ function Header() {
     }
   };
 
-  // const searchHandler = (e) => {
-  //   //search request to the backend
+  const searchHandler = () => {
+    if (isNaN(searchChange)) {
+      navigate(`/products/search=${searchChange}`);
+    } else {
+      navigate(`/products/price=${searchChange}`);
+    }
+  };
+  const logoutHandler = () => {
+    const cancelToken = axios.CancelToken.source();
+    axios
+      .get(
+        'http://localhost:4000/api/logout',
+        {
+          withCredentials: true,
+        },
+        { cancelToken: cancelToken }
+      )
+      .then((res) => {
+        Cookies.remove('token', { path: '/' });
+        navigate('/login');
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) {
+          Cookies.remove('token', { path: '/' });
+          navigate('/login');
+          console.log('too many requests');
+        }
+        console.log(err);
+      });
+  };
 
-  // };
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
   return (
     <>
+      {loading ? <Progress size='xs' isIndeterminate bgColor={'white'} colorScheme='orange' /> : ''}
       <Stack
         direction={['column', 'row']}
         w={'full'}
@@ -37,7 +94,7 @@ function Header() {
         alignItems={'center'}
         p={4}
         position={'sticky'}
-        zIndex={1}
+        zIndex={10}
         top={0}
       >
         <Heading>Apna Store</Heading>
@@ -65,17 +122,49 @@ function Header() {
           </Link>
         </Stack>
 
-        <Stack direction={'row'}>
+        <Stack direction={'row'} alignItems={'center'}>
           <Input type='search' value={searchChange} onChange={(e) => setSearchChange(e.target.value)} focusBorderColor='white' placeholder='Name/Price' />
-          <Link to={`/products/search=${searchChange}`}>
-            <IconButton variant={'solid'} icon={<FaSearch size={'30'} />} />
-          </Link>
+          <Tooltip label='Search Products' hasArrow>
+            <IconButton variant={'solid'} icon={<FaSearch size={'30'} />} onClick={searchHandler} />
+          </Tooltip>
+
           <Link to={'cart'}>
-            <IconButton variant={'ghost'} icon={<FaCartArrowDown size={'30'} />} />
+            <Tooltip label='Cart Items' hasArrow>
+              <IconButton variant={'ghost'} icon={<FaCartArrowDown size={'30'} />} />
+            </Tooltip>
           </Link>
-          <Link to={'login'}>
-            <IconButton variant={'ghost'} icon={<MdLogin size={'30'} />} />
-          </Link>
+          {Cookies.get('token') ? (
+            <Menu>
+              <MenuButton _hover={{ cursor: 'pointer' }} variant={'ghost'} as={Avatar} icon={<Avatar name={data.role} />}></MenuButton>
+              <MenuList zIndex={1}>
+                {data && data.role === 'admin' ? (
+                  <Link to={'/admin/dashboard'}>
+                    <MenuItem>Dashboard</MenuItem>
+                  </Link>
+                ) : (
+                  ''
+                )}
+                <Link to={data && data.role === 'admin' ? '/admin/profile' : 'user/dashboard'}>
+                  <MenuItem>Profile</MenuItem>
+                </Link>
+
+                <Link to={'myOrders'}>
+                  <MenuItem>Orders</MenuItem>
+                </Link>
+
+                <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+                <Link to={'user/dashboard/changePassword'}>
+                  <MenuItem>Change Password</MenuItem>
+                </Link>
+              </MenuList>
+            </Menu>
+          ) : (
+            <Link to={'login'}>
+              <Tooltip label='Login Here' hasArrow>
+                <IconButton variant={'ghost'} icon={<MdLogin size={'30'} />} />
+              </Tooltip>
+            </Link>
+          )}
         </Stack>
       </Stack>
     </>

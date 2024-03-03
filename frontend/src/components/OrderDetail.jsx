@@ -1,35 +1,43 @@
-import { Box, Button, Image, HStack, Heading, VStack } from '@chakra-ui/react';
+import { Box, Button, Image, HStack, Heading, VStack, Divider } from '@chakra-ui/react';
 import image1 from '../assets/1.jpg';
 const OrderDetail = ({ props }) => (
-  <Box p={4} w={'full'}>
+  <Box p={4} w={'full'} boxShadow={'lg'}>
     <HStack justifyContent={'space-between'}>
       <Heading textAlign={'center'} size={'md'}>
         Products Details
       </Heading>
-      <Heading textAlign={'center'} size={'md'}>
-        ID # 567873454
-      </Heading>
+      {/* <Heading textAlign={'center'} size={'md'}>
+          ID #{props.findProduct._id}
+        </Heading> */}
     </HStack>
 
-    <HStack justifyContent={'space-between'} w={'80%'} mt={4} mx={'auto'} p={2} border={'1px solid black'}>
-      <VStack>
-        <Heading size={'xs'}>ID# 567hkj</Heading>
-        <Image src={image1} maxW={20} />
-      </VStack>
+    <HStack justifyContent={'space-between'} w={'full'} mt={4} mx={'auto'} p={2} border={'1px solid gray'}>
+      <Image src={props.findProduct.images && props.findProduct.images[0].image1} alt='Image not found' maxW={'20%'} />
+      {/* <VStack alignItems={'flex-start'} w={'full'}>
+      </VStack> */}
 
-      <VStack justifyContent={'space-between'} alignItems={'flex-start'}>
+      <Divider p={2} orientation='vertical' borderColor={'gray'} />
+      <VStack alignItems={'flex-start'}>
+        <Heading size={'xs'}>#{props.findProduct._id}</Heading>
+
         <Heading size={'xs'} textAlign={'center'}>
-          Name
+          {props.findProduct.name?.substring(0, 40)}
         </Heading>
         <VStack alignItems={'flex-start'}>
           <Heading size={'xs'} textAlign={'center'}>
-            1x
+            Item Price : {props.findProduct.price}
           </Heading>
           <Heading size={'xs'} textAlign={'center'}>
-            Shipping : 200
+            Quantity : {props.quantity}x
           </Heading>
           <Heading size={'xs'} textAlign={'center'}>
-            Total 1200
+            Shipping : {props.shippingCost}
+          </Heading>
+          <Heading size={'xs'} textAlign={'center'}>
+            Tax : {props.tax}
+          </Heading>
+          <Heading size={'xs'} textAlign={'center'}>
+            Total {Math.fround(props.quantity * props.findProduct.price + props.shippingCost).toFixed(2)} pkr
           </Heading>
         </VStack>
       </VStack>

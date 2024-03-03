@@ -62,6 +62,11 @@ const productSchema = new mongoose.Schema({
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users',
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('products', productSchema);

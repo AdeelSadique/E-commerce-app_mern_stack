@@ -1,25 +1,35 @@
 import { Button, Container, Divider, HStack, Heading, Image, Text, VStack } from '@chakra-ui/react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import image1 from '../assets/1.jpg';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 function Cart() {
-  const products = [
-    {
-      id: 1,
-      name: 'apple',
-      price: 1500,
-    },
-    {
-      id: 2,
-      name: 'shirt',
-      price: 800,
-    },
-    {
-      id: 3,
-      name: 'mobile',
-      price: 15000,
-    },
-  ];
+  const [cart, setCart] = useState([]);
+  const [pageReloadOnDelede, setPageReloadOnDelede] = useState(false);
+
+  useEffect(() => {
+    const cancelToken = axios.CancelToken.source();
+    axios
+      .get(
+        'http://localhost:4000/api/myCart',
+        {
+          withCredentials: true,
+        },
+        { cancelToken: cancelToken }
+      )
+      .then((res) => {
+        setCart(res.data.products);
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) {
+          console.log('too many requests');
+        }
+        console.log(err);
+      });
+    return () => {
+      cancelToken.cancel();
+    };
+  }, [pageReloadOnDelede]);
   return (
     <Fragment>
       <Container maxW={'container.lg'} p={8}>
@@ -28,14 +38,14 @@ function Cart() {
           <Heading size={'sm'}>Quantity</Heading>
           <Heading size={'sm'}>Subtotal</Heading>
         </HStack>
-        {products.map((p) => (
-          <CartComponent product={{ id: p.id, name: p.name, price: p.price }} />
+        {cart?.map((p) => (
+          <CartComponent product={p} setPageReloadOnDelede={setPageReloadOnDelede} />
         ))}
       </Container>
     </Fragment>
   );
 }
-const CartComponent = ({ product }) => {
+const CartComponent = ({ product, setPageReloadOnDelede }) => {
   const [quantity, setQuantity] = useState(1);
   const [subTotal, setSubTotal] = useState(product.price);
   const quantityHandler = (mode) => {
@@ -53,19 +63,43 @@ const CartComponent = ({ product }) => {
       }
     }
   };
-  const deleteHandler = (id) => {
-    alert('product is deleted id :' + id);
+
+  const deleteHandler = (productId) => {
+    const cancelToken = axios.CancelToken.source();
+    axios
+      .delete(
+        `http://localhost:4000/api/myCart/${productId}`,
+
+        {
+          withCredentials: true,
+        },
+        { cancelToken: cancelToken }
+      )
+      .then((res) => {
+        alert('product is deleted');
+        setPageReloadOnDelede((pre) => !pre);
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) {
+          console.log('too many requests');
+        }
+        console.log(err);
+      });
+    return () => {
+      cancelToken.cancel();
+    };
   };
   return (
     <>
+      <Divider p={4} />
       <HStack p={2} w={'full'}>
         <VStack w={'full'}>
           <HStack>
-            <Image src={image1} w={'30%'} />
+            <Image src={product.images[0].image1} w={'30%'} />
             <VStack>
               <Text>{product.name}</Text>
               <Text>{product.price}</Text>
-              <Button size={'xs'} variant={'link'} colorScheme='red' onClick={() => deleteHandler(product.id)}>
+              <Button size={'xs'} variant={'link'} colorScheme='red' onClick={() => deleteHandler(product._id)}>
                 Delete Item
               </Button>
             </VStack>
@@ -89,9 +123,9 @@ const CartComponent = ({ product }) => {
           <Divider borderColor={'orange.500'} />
           <HStack w={'full'} justifyContent={'space-between'}>
             <Heading size={'sm'}>Gross Price</Heading>
-            <Heading size={'sm'}>{subTotal}</Heading>
+            <Heading size={'sm'}>{Math.abs(subTotal).toFixed(2)}</Heading>
           </HStack>
-          <Link to={`placeOrder/id=${[product.id, quantity]}`}>
+          <Link to={`placeOrder/${[product._id, quantity]}`}>
             <Button size={'sm'} colorScheme='orange' w={'full'}>
               Checkout
             </Button>

@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import image1 from '../assets/1.jpg';
 import './products.css';
-import { Card, CardBody, CardFooter, Heading, Image, Text, VStack } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Box, Card, CardBody, CardFooter, CardHeader, Heading, Image, Stack, Text, VStack } from '@chakra-ui/react';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+import ReactStars from 'react-stars';
 function ProductCard({ product }) {
   return (
-    <Link to={`/productDetail/id=${product.id}`}>
-      <Card _hover={{ cursor: 'pointer' }} bgColor={'white'} className='card' w={'full'} h={'full'}>
+    <Link to={`/productDetail/${product._id}`}>
+      <Card size={'sm'} _hover={{ cursor: 'pointer' }} bgColor={'white'} className='card' w={'full'} h={'full'}>
+        <CardHeader>
+          <Stack justifyContent={'flex-end'} alignItems={'flex-end'} w={'full'}>
+            <ReactStars value={product.rating} edit={false} />
+          </Stack>
+          <Image src={product.images[0].image1} alt='Image not found' w={'60%'} mx={'auto'} aspectRatio={3 / 3} objectFit={'conver'} />
+        </CardHeader>
         <CardBody>
-          <Image src={product.image} w={'60%'} mx={'auto'} objectFit={'conver'} />
-        </CardBody>
-        <CardFooter>
           <VStack w={'full'} justifyContent={'flex-start'} alignItems={'flex-start'}>
-            <Heading size={'sm'}>{product.title}</Heading>
-            <Text>
-              {product.rating.rate} ({product.rating.count}) Rating
-            </Text>
-            <Heading size={'sm'}>Price {product.price}</Heading>
+            <Heading size={'sm'}>{product.name?.substring(0, 20)}</Heading>
+            {/* <details >{product.description}</details> */}
+            <Text>{`${product.description?.substring(0, 50)}...`}</Text>
           </VStack>
+        </CardBody>
+        <CardFooter justifyContent={'space-between'}>
+          <Heading size={'sm'}>Price {product.price}</Heading>
+          <Text textAlign={'right'} color={`${product.stock ? 'green' : 'red'}`}>{`${product.stock ? 'inStock' : 'outOfStock'}`}</Text>
         </CardFooter>
       </Card>
     </Link>

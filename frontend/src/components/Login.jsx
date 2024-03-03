@@ -1,10 +1,50 @@
 import { Avatar, Box, Button, Flex, HStack, Heading, Input, Stack, VStack } from '@chakra-ui/react';
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useState } from 'react';
+import { Link, json, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import { Cookies, useCookies } from 'react-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../actions/user';
+// import { isLoading } from '../reducers/userReducer';
 
 function Login() {
+  const { loading, failed } = useSelector((state) => state.user);
+  // const { isFailed, isLoading, user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const loginHandler = () => {
+    const cancelToken = axios.CancelToken.source();
+    // dispatch(isLoading());
+    axios
+      .post('http://localhost:4000/api/login', { email, password }, {}, { cancelToken: cancelToken })
+      .then((res) => {
+        const { token } = res.data;
+        Cookie.remove('token', { path: '/' });
+        Cookie.set('token', token, { path: '/' });
+        const isLogged = Cookie.get('token');
+        if (isLogged) {
+          dispatch(getUser());
+          navigate('/auth');
+        } else {
+          navigate('/login');
+        }
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) {
+          console.log('too many requests');
+        }
+        console.log(err);
+      });
+    return () => {
+      cancelToken.cancel();
+    };
+  };
+
   return (
-    <Fragment>
+    <>
       <HStack w={'full'} p={8}>
         <Flex w={'full'} justifyContent={'center'} alignItems={'center'}>
           <Heading>Welcome Back!</Heading>
@@ -12,9 +52,24 @@ function Login() {
         <VStack w={'full'} borderRadius={'lg'} boxShadow={'lg'} p={4}>
           <Avatar size={'lg'} />
 
-          <Input focusBorderColor='orange.500' h={'14'} placeholder='Email Here' />
-          <Input focusBorderColor='orange.500' h={'14'} placeholder='Password Here' />
-          <Button w={'full'} colorScheme='orange'>
+          <Input
+            _autofill={true}
+            type='email'
+            focusBorderColor='orange.500'
+            h={'14'}
+            placeholder='Email Here'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type='password'
+            focusBorderColor='orange.500'
+            h={'14'}
+            placeholder='Password Here'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button w={'full'} colorScheme='orange' onClick={loginHandler}>
             Login
           </Button>
           <Button alignSelf={'flex-end'} variant={'link'}>
@@ -25,7 +80,7 @@ function Login() {
           </Button>
         </VStack>
       </HStack>
-    </Fragment>
+    </>
   );
 }
 
