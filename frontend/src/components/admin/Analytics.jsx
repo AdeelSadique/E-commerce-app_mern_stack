@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Title, Legend, Colors } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -7,29 +7,22 @@ ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineEleme
 function Analytics() {
   const [orders, setOrders] = useState([]);
   let monthlyOrders = [];
-
-  orders.filter((order,i) => {
-    if (Date(new Date(order.createdAt.substring(0, 10)) === Date(new Date(cur.createdAt.substring(0, 10))))) {
-      console.log('yes');
-    } else {
-        console.log('no');
-    }
+  orders.map((ele) => {
+    ele.status === 1 || ele.status === 2 ? monthlyOrders.push(ele.quantity) : '';
   });
 
-  orders.map((order) => {
-    monthlyOrders.push(order.quantity);
-    // console.log(orders.includes(order.createdAt));
-  });
+  let lastTenOrders = monthlyOrders.length - 10;
+
   const lineState = {
     // labels: ['january', 'february', 'march', 'april'],
-    labels: [...Array.from({ length: 30 }).keys()],
+    labels: [...Array.from({ length: 10 }).keys()],
     datasets: [
       {
-        label: 'Jan Orders',
+        label: 'Last 30 Orders',
         backgroundColor: 'black',
         hoverBackgroundColor: 'black',
         tension: 0.5,
-        data: monthlyOrders,
+        data: monthlyOrders.length < 10 ? monthlyOrders : monthlyOrders.slice(lastTenOrders, monthlyOrders.length),
       },
     ],
   };
@@ -60,9 +53,9 @@ function Analytics() {
 
   return (
     <>
-      <Box w={'100%'}>
+      <Container maxW={'container.md'}>
         <Line data={lineState} />
-      </Box>
+      </Container>
     </>
   );
 }
