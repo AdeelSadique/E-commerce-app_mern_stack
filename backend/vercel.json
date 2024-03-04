@@ -9,12 +9,8 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "./controllers/product.js"
-      },
-    
-      {
-        "src": "/api/products",
-        "dest": "./controllers/product.js"
+        "dest": "/backend/server.js"
       }
+    
     ]
   }
