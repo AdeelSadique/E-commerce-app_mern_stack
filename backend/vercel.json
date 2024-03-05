@@ -12,7 +12,7 @@
         "dest": "index.js",
         "methods": ["GET","POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
           "headers": {
-             "Access-Control-Allow-Origin": "*"
+             "Access-Control-Allow-Origin": "https://e-commerce-app-mern-stack-47dv-9mt3wh0uk-adeelsadiques-projects.vercel.app/"
              
          }
       }
