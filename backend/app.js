@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: 'https://e-commerce-app-mern-stack-47dv.vercel.app/' }));
+app.use(cors({ credentials: true, origin: '*' }));
 app.use('/api', product);
 app.use('/api', userRoutes);
 app.use('/api', cartRoutes);
