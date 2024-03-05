@@ -130,11 +130,11 @@ function Products() {
     } else if (setRangePrice || setRangeReview) {
       dispatch(
         getAllProducts(
-          `http://127.0.0.1:4000/api/products?price[gte]=${rangePrice[0]}&price[lte]=${rangePrice[1]}&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
+          `${process.env.BASE_URI}/api/products?price[gte]=${rangePrice[0]}&price[lte]=${rangePrice[1]}&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
         )
       );
     } else {
-      dispatch(getAllProducts(`https://e-commerce-app-mern-stack-f856k2qme-adeelsadiques-projects.vercel.app/api/products?page=${currentPage}`));
+      dispatch(getAllProducts(`${process.env.BASE_URI}/api/products?page=${currentPage}`));
     }
     return () => {
       cancelToken.cancel();
