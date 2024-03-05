@@ -4,13 +4,6 @@ const { register, login, logout, resetPassword, updateProfile, updatePassword, f
 const { isAuthenticated } = require('../middleware/auth');
 
 const router = express.Router();
-const app = express();
-app.use(
-  cors({
-    credentials: true,
-    origin: ['https://e-commerce-app-mern-stack-47dv-9mt3wh0uk-adeelsadiques-projects.vercel.app', 'https://e-commerce-app-mern-stack-47dv.vercel.app', '*'],
-  })
-);
 
 router.route('/register').post(register);
 router.route('/login').post(login);
