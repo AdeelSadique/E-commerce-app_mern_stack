@@ -56,6 +56,7 @@ function Header() {
     }
   };
   const logoutHandler = () => {
+    navigate('/login');
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
