@@ -134,7 +134,7 @@ function Products() {
         )
       );
     } else {
-      dispatch(getAllProducts(`http://127.0.0.1:4000/api/products?page=${currentPage}`));
+      dispatch(getAllProducts(`https://e-commerce-app-mern-stack-f856k2qme-adeelsadiques-projects.vercel.app/api/products?page=${currentPage}`));
     }
     return () => {
       cancelToken.cancel();
