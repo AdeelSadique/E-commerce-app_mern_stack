@@ -19,7 +19,7 @@ function Login() {
     const cancelToken = axios.CancelToken.source();
     // dispatch(isLoading());
     axios
-      .post('http://localhost:4000/api/login', { email, password }, {}, { cancelToken: cancelToken })
+      .post(`${process.env.BASE_URI}/api/login`, { email, password }, {}, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
         Cookie.remove('token', { path: '/' });
