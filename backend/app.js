@@ -17,9 +17,9 @@ app.use('/api', product);
 app.use('/api', userRoutes);
 app.use('/api', cartRoutes);
 app.use('/api', orderRoutes);
-app.get('/', (req, res) => {
-  res.send('welcome');
-});
+// app.get('/', (req, res) => {
+//   res.send('welcome');
+// });
 app.use(errorMiddleware);
 
 module.exports = app;
