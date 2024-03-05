@@ -19,7 +19,7 @@ function Login() {
     const cancelToken = axios.CancelToken.source();
     // dispatch(isLoading());
     axios
-      .post(`https://e-commerce-app-mern-stack-f856k2qme-adeelsadiques-projects.vercel.app/api/login`, { email, password }, {}, { cancelToken: cancelToken })
+      .post(`${process.env.BASE_URI}/api/login`, { email, password }, {}, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
         Cookie.remove('token', { path: '/' });
