@@ -13,7 +13,7 @@
       },
       {
         "src": "api/products",
-        "dest": "./routes/product.js"
+        "dest": "/api/products"
       }
     
     ]
