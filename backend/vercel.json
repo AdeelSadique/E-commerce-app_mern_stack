@@ -8,8 +8,8 @@
     ],
     "routes": [
       {
-        "src": "/api/(.*)",
-        "dest": "/"
+        "src": "/api/products",
+        "dest": "https://e-commerce-app-mern-stack-c5urhulk1-adeelsadiques-projects.vercel.app/api/products"
       }
     
     ]
