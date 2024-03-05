@@ -56,7 +56,6 @@ function Header() {
     }
   };
   const logoutHandler = () => {
-    navigate('/login');
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
@@ -76,6 +75,8 @@ function Header() {
           navigate('/login');
           console.log('too many requests');
         }
+        Cookies.remove('token', { path: '/' });
+        navigate('/login');
         console.log(err);
       });
   };
