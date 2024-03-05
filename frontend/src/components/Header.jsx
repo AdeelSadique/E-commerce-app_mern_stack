@@ -59,7 +59,7 @@ function Header() {
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
-        'http://localhost:4000/api/logout',
+        `${process.env.BASE_URI}/api/logout`,
         {
           withCredentials: true,
         },
