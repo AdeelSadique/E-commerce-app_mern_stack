@@ -47,14 +47,9 @@ function Profile() {
   return (
     <Box maxW={'full'} p={4}>
       <Heading>
-        user dashboard {data.name}
+        user dashboard
         {data.email}
       </Heading>
-
-      {/* <Button onClick={logoutHandler}>logout</Button> */}
-      <Box w={'100%'}>
-        <Line data={lineState} />
-      </Box>
     </Box>
   );
 }

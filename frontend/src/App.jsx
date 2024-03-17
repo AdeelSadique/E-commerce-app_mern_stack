@@ -33,9 +33,8 @@ function App() {
           <Route path='/admin/dashboard/payment' Component={Payment} />
           <Route path='/admin/dashboard/products' Component={ManageProducts} />
           {/* Admin routes */}
-          <Route path='/user/dashboard' Component={UserDashboard}>
-            <Route path='/user/dashboard/changePassword' Component={ChangePassword} />
-          </Route>
+          <Route path='/user/dashboard' Component={UserDashboard} />
+          <Route path='/dashboard/changePassword' Component={ChangePassword} />
           <Route path='/products' Component={Products}>
             {/* param can be search value or category */}
             <Route path='/products/:param' Component={Products} />

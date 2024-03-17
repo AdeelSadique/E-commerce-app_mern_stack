@@ -59,7 +59,7 @@ function Header() {
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
-        `${process.env.BASE_URI}/api/logout`,
+        `http://localhost:4000/api/logout`,
         {
           withCredentials: true,
         },
@@ -155,7 +155,7 @@ function Header() {
                 </Link>
 
                 <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-                <Link to={'user/dashboard/changePassword'}>
+                <Link to={'/dashboard/changePassword'}>
                   <MenuItem>Change Password</MenuItem>
                 </Link>
               </MenuList>

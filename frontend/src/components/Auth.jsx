@@ -18,13 +18,13 @@ const Auth = () => {
     if (isLogged) {
       // dispatch(getUser());
 
-      // setTimeout(() => {
-      if (data.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/user/dashboard');
-      }
-      // }, 1000);
+      setTimeout(() => {
+        if (data.role === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/user/dashboard');
+        }
+      }, 1000);
     } else {
       navigate('/login');
     }
@@ -54,5 +54,11 @@ const Auth = () => {
     //   cancelToken.cancel();
     // };
   }, [dispatch]);
+
+  return (
+    <>
+      <h1>Authenticating</h1>
+    </>
+  );
 };
 export default Auth;

@@ -86,7 +86,7 @@ function ProductDetail() {
               <Image w={'full'} borderRadius={'md'} objectFit={'cover'} src={findProduct.images && findProduct.images[0].image1} alt='Image not found' />
               {/* </Box>
               <Box> */}
-              <Image borderRadius={'md'} objectFit={'cover'} src={findProduct.images && findProduct.images[0].image1} alt='Image not found' />
+              <Image borderRadius={'md'} objectFit={'cover'} src={findProduct.images && findProduct.images[0].image2} alt='Image not found' />
               {/* <Box>
               </Box> */}
             </Carousel>

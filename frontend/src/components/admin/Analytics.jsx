@@ -1,4 +1,4 @@
-import { Box, Container } from '@chakra-ui/react';
+import { Box, Button, Container } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Title, Legend, Colors } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -53,7 +53,10 @@ function Analytics() {
 
   return (
     <>
-      <Container maxW={'container.md'}>
+      <Container maxW={'container.md'} p={2}>
+        <Button size={'sm'} colorScheme='orange' onClick={() => history.back()}>
+          Back
+        </Button>
         <Line data={lineState} />
       </Container>
     </>

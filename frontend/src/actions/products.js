@@ -8,5 +8,6 @@ export const getAllProducts = createAsyncThunk('product/getAllProducts', async (
     return data;
   } catch (error) {
     throw Error(error.message);
+    // return error.message;
   }
 });

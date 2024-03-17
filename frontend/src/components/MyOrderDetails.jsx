@@ -32,21 +32,21 @@ function OrderDetails() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [messageChange, setMessageChange] = useState('');
   const sendMessage = (id) => {
-      axios
-        .put(
-          `http://localhost:4000/api/chat/${id}`,
-          { message: messageChange },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          // setChat(res.data.order);
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    axios
+      .put(
+        `http://localhost:4000/api/chat/${id}`,
+        { message: messageChange },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        // setChat(res.data.order);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -64,6 +64,9 @@ function OrderDetails() {
 
   return (
     <Container maxW={'container.lg'} p={4} bgColor={'whitesmoke'}>
+      <Button size={'sm'} ms={'-10vmax'} colorScheme='orange' onClick={() => history.back()}>
+        Back
+      </Button>
       <IconButton position={'fixed'} top={'85%'} left={'92%'} colorScheme='orange' borderRadius={'full'} w={'40px'} h={'40px'} onClick={onOpen}>
         <AiFillMessage size={'32'} />
       </IconButton>

@@ -19,7 +19,7 @@ function Login() {
     const cancelToken = axios.CancelToken.source();
     // dispatch(isLoading());
     axios
-      .post(`${process.env.BASE_URI}/api/login`, { email, password }, {}, { cancelToken: cancelToken })
+      .post(`http://localhost:4000/api/login`, { email, password }, {}, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
         Cookie.remove('token', { path: '/' });
@@ -27,7 +27,9 @@ function Login() {
         const isLogged = Cookie.get('token');
         if (isLogged) {
           dispatch(getUser());
-          navigate('/auth');
+          setTimeout(() => {
+            navigate('/auth');
+          }, 1000);
         } else {
           navigate('/login');
         }

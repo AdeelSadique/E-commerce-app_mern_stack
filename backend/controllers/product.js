@@ -2,6 +2,9 @@ const Product = require('../models/products');
 const ErrorHandler = require('../util/errorHandler');
 const ApiFeatures = require('../util/apiFeatures');
 const userModel = require('../models/userModel');
+const path = require('path');
+const multer = require('multer');
+const { cloudinaryFileUploader } = require('../util/cloudinary');
 
 // getAllProducts model
 exports.getAllProducts = async (req, res, next) => {
@@ -25,7 +28,14 @@ exports.getAllProducts = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   try {
     req.body.user = req.user.id;
-    const product = await Product.create(req.body);
+
+    const path1 = req.files[0].path;
+    const path2 = req.files[1].path;
+    // call the cloudinaryUploader function and pass the path
+    const url1 = await cloudinaryFileUploader(path1);
+    const url2 = await cloudinaryFileUploader(path2);
+    const { name, price, stock, description, category, user } = req.body;
+    const product = await Product.create({ name, price, stock, description, category, images: { image1: url1, image2: url2 }, user });
     if (product) {
       product.user = await userModel.findById(product.user);
       res.status(201).json({ success: true, data: product });

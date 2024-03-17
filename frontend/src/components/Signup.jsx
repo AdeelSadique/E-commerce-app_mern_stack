@@ -14,11 +14,11 @@ function Signup() {
   const signupHandler = () => {
     const cancelToken = axios.CancelToken.source();
     axios
-      .post(`${process.env.BASE_URI}/api/register`, { name, email, password, confirmPassword }, {}, { cancelToken: cancelToken })
+      .post(`http://localhost:4000/api/register`, { name, email, password, confirmPassword }, {}, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
         Cookies.set('token', token, { path: '/' });
-        navigate('/profile');
+        navigate('/auth');
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
