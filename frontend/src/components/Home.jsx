@@ -118,9 +118,13 @@ const Home = () => {
           Featured Products
         </Heading>
         <SimpleGrid templateColumns={'repeat(auto-fill, minmax(260px, 1fr))'} spacing={8} p={10}>
-          {loading
-            ? [...Array.from({ length: 4 }).keys()].map((v) => <SkeletonCard key={v} />)
-            : data && data.map((product, i) => <ProductCard key={product._id} product={product} />)}
+          {data == '' ? (
+            <Heading size={'md'}>Products Not Found</Heading>
+          ) : loading ? (
+            [...Array.from({ length: 4 }).keys()].map((v) => <SkeletonCard key={v} />)
+          ) : (
+            data && data.map((product, i) => <ProductCard key={product._id} product={product} />)
+          )}
         </SimpleGrid>
       </Box>
 

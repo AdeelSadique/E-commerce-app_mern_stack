@@ -15,7 +15,8 @@ const Auth = () => {
 
   useEffect(() => {
     const isLogged = Cookies.get('token');
-    if (isLogged) {
+
+    if (isLogged && data) {
       // dispatch(getUser());
 
       setTimeout(() => {
@@ -29,30 +30,9 @@ const Auth = () => {
       navigate('/login');
     }
 
-    // const cancelToken = axios.CancelToken.source();
-    // if (isLogged) {
-    //   dispatch(isLoading());
-
-    //   axios
-    //     .get('http://localhost:4000/api/me', { withCredentials: true }, { cancelToken: cancelToken })
-    //     .then((res) => {
-    //       const { data } = res;
-    //       dispatch(isSuccess({ payload: data.user }));
-    //       if (data && data.user.role === 'admin') {
-    //         navigate('/admin/dashboard');
-    //       } else {
-    //         navigate('/user/dashboard');
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       dispatch(isFailed({ payload: err.message }));
-    //     });
-    // } else {
-    //   console.log('not logged');
-    // }
-    // return () => {
-    //   cancelToken.cancel();
-    // };
+    // setInterval(() => {
+    //   navigate('/login');
+    // }, 21600);
   }, [dispatch]);
 
   return (

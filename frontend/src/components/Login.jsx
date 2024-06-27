@@ -18,12 +18,13 @@ function Login() {
   const loginHandler = () => {
     const cancelToken = axios.CancelToken.source();
     // dispatch(isLoading());
+    // Cookie.remove('token', { path: '/', expires: new Date(Date.now()) });
     axios
       .post(`http://localhost:4000/api/login`, { email, password }, {}, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
-        Cookie.remove('token', { path: '/' });
-        Cookie.set('token', token, { path: '/' });
+        // js-cookie takes values as 1 mean 1 day if want specific we do this
+        Cookie.set('token', token, { path: '/', expires: new Date(Date.now() + 6 * 60 * 60 * 1000) });
         const isLogged = Cookie.get('token');
         if (isLogged) {
           dispatch(getUser());

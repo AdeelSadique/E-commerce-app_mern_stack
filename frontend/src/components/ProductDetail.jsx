@@ -6,6 +6,7 @@ import image1 from '../assets/1.jpg';
 import image2 from '../assets/react.svg';
 import { Carousel } from 'react-responsive-carousel';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function ProductDetail() {
   const { productID } = useParams();
@@ -13,7 +14,8 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const quantityHandler = (mode) => {
     if (mode === '+') {
-      setQuantity((q) => q + 1);
+      quantity >= findProduct.stock ? setQuantity(findProduct.stock) : setQuantity((q) => q + 1);
+
       // setPriceChange(() => product.price * quantity);
       // setSubTotal(subTotal + product.price);
     } else {
@@ -135,11 +137,21 @@ function ProductDetail() {
                 <Button colorScheme='orange' variant={'outline'} onClick={() => addToCartHndler(findProduct._id)}>
                   Add to cart
                 </Button>
-                <Link to={`/cart/placeOrder/${[findProduct._id, quantity]}`}>
-                  <Button colorScheme='orange' w={'full'}>
-                    Buy Now
-                  </Button>
-                </Link>
+
+                {/* if not logged we w'll redirect to login poge */}
+                {!Cookies.get('token') ? (
+                  <Link to={'/login'}>
+                    <Button colorScheme='orange' w={'full'}>
+                      Login First
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link to={`/cart/placeOrder/${[findProduct._id, quantity]}`}>
+                    <Button colorScheme='orange' w={'full'} isDisabled={findProduct.stock == 0 || findProduct.stock <= 0 ? true : false}>
+                      {findProduct.stock == 0 || findProduct.stock <= 0 ? 'Empty Stock' : 'Buy Now'}
+                    </Button>
+                  </Link>
+                )}
               </HStack>
               <HStack>
                 <Button size={'xs'} colorScheme='orange' variant={'outline'}>

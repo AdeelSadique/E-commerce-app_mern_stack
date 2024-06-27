@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [checkStatus, setCheckStatus] = useState('');
+  const [statusOnUpdate, setStatusOnUpdate] = useState(true);
 
   const updateStatusHandler = (id, status) => {
     axios
@@ -18,36 +19,45 @@ const Orders = () => {
       )
       .then((res) => {
         console.log(res.data);
+        setStatusOnUpdate(true);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  const setCheckStatusHandler = (status) => {
+    setCheckStatus(status);
+    setStatusOnUpdate(true);
+  };
 
   useEffect(() => {
     const cancelToken = axios.CancelToken.source();
     // checkstatus is initially empty so it will fetch all orders and then with status
-    axios
-      .get(
-        `http://localhost:4000/api/allOrders?status=${checkStatus}`,
-        {
-          withCredentials: true,
-        },
-        { cancelToken: cancelToken }
-      )
-      .then((res) => {
-        setOrders(res.data.orders);
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) {
-          console.log('too many requests');
-        }
-        console.log(err);
-      });
+    statusOnUpdate
+      ? axios
+          .get(
+            `http://localhost:4000/api/allOrders?status=${checkStatus}`,
+            {
+              withCredentials: true,
+            },
+            { cancelToken: cancelToken }
+          )
+          .then((res) => {
+            setOrders(res.data.orders);
+            setStatusOnUpdate(false);
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) {
+              console.log('too many requests');
+            }
+            console.log(err);
+          })
+      : '';
+
     return () => {
       cancelToken.cancel();
     };
-  }, [checkStatus, updateStatusHandler]);
+  }, [checkStatus, statusOnUpdate]);
   return (
     <>
       <Container maxW={'full'} bgColor={'whitesmoke'}>
@@ -56,10 +66,10 @@ const Orders = () => {
             <Button colorScheme='orange'>Home</Button>
           </Link>
           <ButtonGroup colorScheme='orange' variant={'outline'}>
-            <Button onClick={() => setCheckStatus('')}>All</Button>
-            <Button onClick={() => setCheckStatus('0')}>Processing</Button>
-            <Button onClick={() => setCheckStatus('1')}>Shipped</Button>
-            <Button onClick={() => setCheckStatus('2')}>Delivered</Button>
+            <Button onClick={() => setCheckStatusHandler('')}>All</Button>
+            <Button onClick={() => setCheckStatusHandler('0')}>Processing</Button>
+            <Button onClick={() => setCheckStatusHandler('1')}>Shipped</Button>
+            <Button onClick={() => setCheckStatusHandler('2')}>Delivered</Button>
           </ButtonGroup>
           <Link to={'/admin/dashboard/orders/analytics'}>
             <Button colorScheme='orange'>Analytics</Button>
@@ -71,6 +81,7 @@ const Orders = () => {
             <Th>O_ID</Th>
             <Th>Placed_At</Th>
             <Th>Status</Th>
+            <Th>Payment</Th>
             <Th>Action</Th>
             <Th>More</Th>
           </Thead>
@@ -83,6 +94,7 @@ const Orders = () => {
                 <Td color={order.status === 1 ? 'yellow.400' : order.status === 2 ? 'green' : 'red'}>
                   {order.status === 1 ? 'Shipped' : order.status === 2 ? 'Delivered' : 'Processing'}
                 </Td>
+                <Td color={order.paidStatus === 0 ? 'red' : 'green'}>{order.paidStatus === 1 ? 'Paid' : 'Pending'}</Td>
                 <Td>
                   <Select size={'xs'} w={'100px'} onChange={(e) => updateStatusHandler(order._id, e.target.value)}>
                     <option defaultChecked>Choose</option>
@@ -92,7 +104,7 @@ const Orders = () => {
                 </Td>
                 <Td>
                   <Link to={`/orderDetails/${order._id}`}>
-                    <Button>Manage</Button>
+                    <Button>Details</Button>
                   </Link>
                 </Td>
               </Tr>

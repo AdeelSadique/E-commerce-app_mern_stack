@@ -50,9 +50,14 @@ const CartComponent = ({ product, setPageReloadOnDelede }) => {
   const [subTotal, setSubTotal] = useState(product.price);
   const quantityHandler = (mode) => {
     if (mode === '+') {
-      setQuantity((q) => q + 1);
+      if (quantity >= product.stock) {
+        setQuantity(product.stock || 1);
+      } else {
+        setQuantity((q) => q + 1);
+        setSubTotal(subTotal + product.price);
+      }
+
       // setPriceChange(() => product.price * quantity);
-      setSubTotal(subTotal + product.price);
     } else {
       if (quantity <= 1) {
         setQuantity((q) => (q = 1));
@@ -125,11 +130,18 @@ const CartComponent = ({ product, setPageReloadOnDelede }) => {
             <Heading size={'sm'}>Gross Price</Heading>
             <Heading size={'sm'}>{Math.abs(subTotal).toFixed(2)}</Heading>
           </HStack>
-          <Link to={`placeOrder/${[product._id, quantity]}`}>
-            <Button size={'sm'} colorScheme='orange' w={'full'}>
-              Checkout
+
+          {product.stock == 0 ? (
+            <Button size={'sm'} colorScheme='orange' w={'full'} isDisabled>
+              outStock
             </Button>
-          </Link>
+          ) : (
+            <Link to={`placeOrder/${[product._id, quantity]}`}>
+              <Button size={'sm'} colorScheme='orange' w={'full'}>
+                Checkout
+              </Button>
+            </Link>
+          )}
         </VStack>
       </HStack>
 

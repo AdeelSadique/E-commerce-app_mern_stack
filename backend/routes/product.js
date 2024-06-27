@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllProducts, createProduct, findProduct, updateProduct, deleteProduct, userFeedback } = require('../controllers/product');
+const { getAllProducts, createProduct, findProduct, updateProduct, deleteProduct, userFeedback, getAllStock } = require('../controllers/product');
 const { isAuthenticated, rolesAuthentication } = require('../middleware/auth');
 const path = require('path');
 const multer = require('multer');
@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.route('/products').get(getAllProducts).post(isAuthenticated, rolesAuthentication('admin'), upload.array('images'), createProduct);
+router.route('/products-getAllStock').get(isAuthenticated, rolesAuthentication('admin'), getAllStock);
 router
   .route('/product/:id')
   .get(findProduct)

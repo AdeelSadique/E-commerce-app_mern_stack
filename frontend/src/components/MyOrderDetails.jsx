@@ -31,6 +31,7 @@ function OrderDetails() {
   const [orderDetails, setOrderDetails] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [messageChange, setMessageChange] = useState('');
+  const [updateFlag, setUpdateFlag] = useState(true);
   const sendMessage = (id) => {
     axios
       .put(
@@ -43,6 +44,8 @@ function OrderDetails() {
       .then((res) => {
         // setChat(res.data.order);
         console.log(res);
+        setUpdateFlag(true);
+        setMessageChange('');
       })
       .catch((err) => {
         console.log(err);
@@ -50,17 +53,20 @@ function OrderDetails() {
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/api/orderDetails/${orderId}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setOrderDetails(res.data.order);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    updateFlag
+      ? axios
+          .get(`http://localhost:4000/api/orderDetails/${orderId}`, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            setOrderDetails(res.data.order);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      : '';
+    setUpdateFlag(false);
+  }, [updateFlag]);
 
   return (
     <Container maxW={'container.lg'} p={4} bgColor={'whitesmoke'}>
@@ -76,7 +82,18 @@ function OrderDetails() {
             <Heading size={'xs'}>#{orderDetails._id}</Heading>
             <Text>Placed at {new Date(orderDetails.createdAt).toLocaleString()}</Text>
           </VStack>
-          <Tag variant={'solid'}>RS {orderDetails.product?.price}</Tag>
+          <VStack alignItems={'flex-end'}>
+            <Tag variant={'solid'}>RS {orderDetails.product?.price}</Tag>
+            <Text size={'sm'}>
+              Payment Mode <b>{orderDetails.paymentMethod == 2 ? 'Credit Card' : orderDetails.paymentMethod == 1 ? 'EasyPesa' : 'COD'}</b>
+            </Text>
+            <HStack>
+              <Text size={'sm'}>Paid Status</Text>
+              <Text size={'sm'} color={orderDetails.paidStatus == 1 ? 'green' : 'red'}>
+                <b>{orderDetails.paidStatus == 1 ? 'Paid' : 'Not paid'}</b>
+              </Text>
+            </HStack>
+          </VStack>
         </HStack>
         <Divider />
         <HStack w={'full'} justifyContent={'space-between'}>
@@ -143,7 +160,7 @@ function OrderDetails() {
         <ModalContent>
           <ModalCloseButton />
           <ModalHeader>Chat with seller</ModalHeader>
-          <ModalBody overflow={'auto'} w={'full'}>
+          <ModalBody overflow={'auto'} w={'full'} maxH={'50vh'} style={window.scrollTo({ top: '-100px' })}>
             {orderDetails &&
               orderDetails.chat?.map((m) => (
                 <VStack alignItems={m.role === 'admin' ? 'flex-end' : 'flex-start'}>
@@ -154,7 +171,7 @@ function OrderDetails() {
           </ModalBody>
           <ModalFooter>
             <HStack w={'full'}>
-              <Textarea onChange={(e) => setMessageChange(e.target.value)} w={'full'} rows={1} placeholder='Message'></Textarea>
+              <Textarea onChange={(e) => setMessageChange(e.target.value)} w={'full'} rows={1} placeholder='Message' value={messageChange}></Textarea>
               <IconButton onClick={() => sendMessage(orderId)}>
                 <AiFillMessage />
               </IconButton>

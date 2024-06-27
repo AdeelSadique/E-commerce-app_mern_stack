@@ -13,14 +13,7 @@ function ProductCard({ product }) {
           <Stack justifyContent={'flex-end'} alignItems={'flex-end'} w={'full'}>
             <ReactStars value={product.rating} edit={false} />
           </Stack>
-          <Image
-            src={product.images[0].image1 || `http://localhost:4000/${product.images[0].image1}`}
-            alt='Image not found'
-            w={'60%'}
-            mx={'auto'}
-            aspectRatio={3 / 3}
-            objectFit={'conver'}
-          />
+          <Image src={product.images[0].image1} alt='Image not found' w={'80%'} mx={'auto'} aspectRatio={'3/3'} />
         </CardHeader>
         <CardBody>
           <VStack w={'full'} justifyContent={'flex-start'} alignItems={'flex-start'}>

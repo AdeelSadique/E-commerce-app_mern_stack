@@ -66,16 +66,16 @@ function Header() {
         { cancelToken: cancelToken }
       )
       .then((res) => {
-        Cookies.remove('token', { path: '/' });
+        Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
         navigate('/login');
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
-          Cookies.remove('token', { path: '/' });
+          Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
           navigate('/login');
           console.log('too many requests');
         }
-        Cookies.remove('token', { path: '/' });
+        Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
         navigate('/login');
         console.log(err);
       });
@@ -99,7 +99,9 @@ function Header() {
         zIndex={10}
         top={0}
       >
-        <Heading>Apna Store</Heading>
+        <Link to={'/'}>
+          <Heading>Apna Store</Heading>
+        </Link>
 
         <Stack direction={'row'}>
           <Link to={'/'} onClick={() => activePageChacker('/')}>
@@ -135,7 +137,7 @@ function Header() {
               <IconButton variant={'ghost'} icon={<FaCartArrowDown size={'30'} />} />
             </Tooltip>
           </Link>
-          {Cookies.get('token') ? (
+          {Cookies.get('token') && data ? (
             <Menu>
               <MenuButton _hover={{ cursor: 'pointer' }} variant={'ghost'} as={Avatar} icon={<Avatar name={data.role} />}></MenuButton>
               <MenuList zIndex={1}>
@@ -161,7 +163,7 @@ function Header() {
               </MenuList>
             </Menu>
           ) : (
-            <Link to={'login'}>
+            <Link to={'/login'}>
               <Tooltip label='Login Here' hasArrow>
                 <IconButton variant={'ghost'} icon={<MdLogin size={'30'} />} />
               </Tooltip>

@@ -17,10 +17,10 @@ exports.register = async (req, res, next) => {
       const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
       const cookieOptions = {
         httpOnly: true,
-        expires: Date() * 1000 * 60 * 60 * 60 * 12,
+        expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
       };
 
-      // cookie setted for 12 hour
+      // cookie setted for 6 hour
       res
         .status(200)
         .cookie('token', token, { ...cookieOptions })
@@ -50,10 +50,10 @@ exports.login = async (req, res, next) => {
           const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
           const cookieOptions = {
             httpOnly: true,
-            expires: Date() * 1000 * 60 * 60 * 60 * 12,
+            expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
           };
 
-          // cookie setted for 12 hour
+          // cookie setted for 6 hour
           res
             .status(200)
             .cookie('token', token, { ...cookieOptions })

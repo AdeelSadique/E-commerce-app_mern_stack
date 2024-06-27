@@ -3,6 +3,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { Fragment, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../actions/user';
 
 function Signup() {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setComfirmPassword] = useState('');
+  const dispatch = useDispatch();
 
   const signupHandler = () => {
     const cancelToken = axios.CancelToken.source();
@@ -18,6 +21,8 @@ function Signup() {
       .then((res) => {
         const { token } = res.data;
         Cookies.set('token', token, { path: '/' });
+        dispatch(getUser());
+
         navigate('/auth');
       })
       .catch((err) => {

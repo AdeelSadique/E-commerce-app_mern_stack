@@ -4,8 +4,8 @@ import {
   Container,
   HStack,
   Heading,
-  Table,
   Tag,
+  Table,
   Tbody,
   Td,
   Th,
@@ -26,6 +26,7 @@ import {
   Select,
   Textarea,
   Image,
+  useToast,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { getAllProducts } from '../../actions/products';
@@ -34,11 +35,12 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import axios from 'axios';
 
 const Products = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const { loading, data, failed, productCounts } = useSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [newProduct, setNewProduct] = useState({
+  const [product, setProduct] = useState({
     name: '',
     price: '',
     category: '',
@@ -48,31 +50,71 @@ const Products = () => {
   });
   const [image1, setImage1] = useState('');
   const [image2, setImage2] = useState('');
+  const [updateProduct, setUpdateProduct] = useState(false);
+  const [productId, setProductId] = useState('');
 
-  const productUpdateHandler = (id) => {
-    alert(id);
+  const productEditHandler = (id) => {
+    // alert(id);
+    setUpdateProduct(true);
+    setProductId(id);
+    axios
+      .get(`http://localhost:4000/api/product/${id}`, { withCredentials: true })
+      .then((res) => {
+        setProduct({ ...res.data.product });
+        onOpen();
+      })
+      .catch((err) => {
+        toast({ title: 'Error', description: 'Failed to upload product', status: 'error', duration: 3000, isClosable: true });
+        console.log(err);
+      });
   };
+  const updateProductHandler = () => {
+    axios
+      .put(`http://localhost:4000/api/product/${productId}`, product, { withCredentials: true })
+      .then((res) => {
+        setProduct({ ...res.data.product });
+        setUpdateProduct(false);
+        // we will getAllProducts on update
+        dispatch(getAllProducts(`http://localhost:4000/api/products?page=${currentPage}`));
+        onClose();
+        toast({ title: 'Success', description: 'Product updated successfully', status: 'success', duration: 3000, isClosable: true });
+      })
+      .catch((err) => {
+        toast({ title: 'Error', description: 'Failed to update product', status: 'error', duration: 3000, isClosable: true });
+        console.log(err);
+      });
+  };
+
   const addNewProductHandler = () => {
-    // newProduct.images.push({'image1':image1,'image2':image2})
-    // const formData = new FormData();
-    // formData.append('image1', image1);
-    // formData.append('image2', image2);
+    setUpdateProduct(false);
     const formData = new FormData();
-    formData.append('name', newProduct.name);
-    formData.append('category', newProduct.category);
-    formData.append('description', newProduct.description);
-    formData.append('price', newProduct.price);
-    formData.append('stock', newProduct.stock);
+    formData.append('name', product.name);
+    formData.append('category', product.category);
+    formData.append('description', product.description);
+    formData.append('price', product.price);
+    formData.append('stock', product.stock);
     formData.append('images', image1);
     formData.append('images', image2);
     axios
       .post(`http://localhost:4000/api/products`, formData, { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
+        // we will fetch products on update
+        dispatch(getAllProducts(`http://localhost:4000/api/products?page=${currentPage}`));
+        onClose();
+        if (res.data.success) {
+          toast({ title: 'Success', description: 'Product added successfully', status: 'success', duration: 3000, isClosable: true });
+        }
       })
       .catch((err) => {
+        toast({ title: 'Error', description: 'Failed to upload product', status: 'error', duration: 3000, isClosable: true });
         console.log(err);
       });
+  };
+
+  const onCloseHandler = () => {
+    onClose();
+    setUpdateProduct(false);
+    setProduct({ ...null });
   };
 
   useEffect(() => {
@@ -117,7 +159,7 @@ const Products = () => {
                   <Td>{product.price}</Td>
                   <Td color={product.stock === 0 ? 'red' : ''}>{product.stock === 0 ? 'outofstock' : product.stock}</Td>
                   <Td>
-                    <Button size={'xs'} colorScheme='orange' onClick={() => productUpdateHandler(product._id)}>
+                    <Button size={'xs'} colorScheme='orange' onClick={() => productEditHandler(product._id)}>
                       Update
                     </Button>
                   </Td>
@@ -147,31 +189,32 @@ const Products = () => {
         </ButtonGroup>
       </Container>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onCloseHandler}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add new product</ModalHeader>
+          <ModalHeader>{updateProduct ? 'Update Product' : 'Add new Product'}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <VStack>
               <FormControl isRequired>
                 <FormLabel>Name</FormLabel>
-                <Input placeholder='Product Name' value={newProduct.name} onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} />
+                <Input placeholder='Product Name' value={product.name} onChange={(e) => setProduct({ ...product, name: e.target.value })} />
               </FormControl>
               <HStack w={'full'}>
                 <FormControl isRequired>
                   <FormLabel>Price</FormLabel>
-                  <Input placeholder='Product Price' value={newProduct.price} onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })} />
+                  <Input placeholder='Product Price' value={product.price} onChange={(e) => setProduct({ ...product, price: e.target.value })} />
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel>Category</FormLabel>
                   {/* <Input placeholder='Product Category' /> */}
-                  <Select value={newProduct.category} onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}>
+                  <Select value={product.category} onChange={(e) => setProduct({ ...product, category: e.target.value })}>
+                    <option defaultChecked>choose</option>
                     <option value="men's" defaultChecked>
                       Men's
                     </option>
                     <option value="women's">Women's</option>
-                    <option value="women's">Electronics</option>
+                    <option value='electronics'>Electronics</option>
                     <option value='jewelery'>Jewelery</option>
                     <option value='food'>Food</option>
                   </Select>
@@ -179,27 +222,26 @@ const Products = () => {
               </HStack>
               <FormControl isRequired>
                 <FormLabel>Stock</FormLabel>
-                <Input
-                  type='number'
-                  placeholder='Add Stock'
-                  value={newProduct.stock}
-                  onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-                />
+                <Input type='number' placeholder='Add Stock' value={product.stock} onChange={(e) => setProduct({ ...product, stock: e.target.value })} />
               </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Images</FormLabel>
-                <HStack>
-                  <Input size={'xs'} type='file' onChange={(e) => setImage1(e.target.files[0])} />
-                  <Input size={'xs'} type='file' onChange={(e) => setImage2(e.target.files[0])} />
-                </HStack>
-              </FormControl>
+              {updateProduct ? (
+                ''
+              ) : (
+                <FormControl isRequired>
+                  <FormLabel>Images</FormLabel>
+                  <HStack>
+                    <Input size={'xs'} type='file' onChange={(e) => setImage1(e.target.files[0])} />
+                    <Input size={'xs'} type='file' onChange={(e) => setImage2(e.target.files[0])} />
+                  </HStack>
+                </FormControl>
+              )}
               <FormControl isRequired>
                 <FormLabel>Description</FormLabel>
                 <HStack>
                   <Textarea
                     placeholder='Product Description'
-                    value={newProduct.description}
-                    onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+                    value={product.description}
+                    onChange={(e) => setProduct({ ...product, description: e.target.value })}
                   ></Textarea>
                 </HStack>
               </FormControl>
@@ -207,11 +249,11 @@ const Products = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='orange' mr={3} variant='outline' onClick={onClose}>
+            <Button colorScheme='orange' mr={3} variant='outline' onClick={onCloseHandler}>
               Close
             </Button>
-            <Button colorScheme='orange' onClick={addNewProductHandler}>
-              Add Product
+            <Button colorScheme='orange' onClick={updateProduct ? updateProductHandler : addNewProductHandler}>
+              {updateProduct ? 'Update Product' : 'Add Product'}
             </Button>
           </ModalFooter>
         </ModalContent>
