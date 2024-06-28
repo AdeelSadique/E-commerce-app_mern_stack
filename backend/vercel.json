@@ -12,6 +12,12 @@
      
         "dest": "index.js"
         
+      },
+      {
+        "src": "/api/testing",
+     
+        "dest": "index.js"
+        
       }
   
     
