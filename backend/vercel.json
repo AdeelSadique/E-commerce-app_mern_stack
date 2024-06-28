@@ -16,7 +16,7 @@
       {
         "src": "/testing",
      
-        "dest": "index.js"
+        "dest": "app.js"
         
       }
    
