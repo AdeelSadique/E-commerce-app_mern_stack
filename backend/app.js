@@ -21,16 +21,16 @@ app.use(
     origin: ['http://localhost:5173', '*'],
   })
 );
-app.use('/', product);
+app.use('/api', product);
 app.use('/', (req, res) => {
   res.json({ msg: 'starting page' });
 });
 app.use('/testing', (req, res) => {
   res.json({ msg: ' testing api page working' });
 });
-app.use('/', userRoutes);
-app.use('/', cartRoutes);
-app.use('/', orderRoutes);
+app.use('/api', userRoutes);
+app.use('/api', cartRoutes);
+app.use('/api', orderRoutes);
 app.use(errorMiddleware);
 
 module.exports = app;

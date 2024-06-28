@@ -1,6 +1,6 @@
-const app = require('../app');
+const app = require('./app');
 const dotenv = require('dotenv');
-const mongoDBConnection = require('../config/DB');
+const mongoDBConnection = require('./config/DB');
 // uncaught exception handling
 process.on('uncaughtException', (err) => {
   console.log(`Error: ${err.message}`);
