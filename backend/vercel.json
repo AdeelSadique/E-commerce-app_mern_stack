@@ -4,6 +4,10 @@
       {
         "src": "index.js",
         "use": "@vercel/node"
+      },
+      {
+        "src": "/backend/routes/product.js",
+        "use": "@vercel/node"
       }
     ],
     "routes": [
@@ -14,9 +18,9 @@
         
       },
       {
-        "src": "/api/testing",
+        "src": "/api/products",
      
-        "dest": "index.js"
+        "dest": "/backend/routes/product.js"
         
       }
   
