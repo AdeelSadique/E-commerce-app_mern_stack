@@ -10,7 +10,7 @@
       {
         "src": "/api/(.*)",
      
-        "dest": "/api/index.js"
+        "dest": "/api/app.js"
         
       }
   
