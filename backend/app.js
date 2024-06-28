@@ -23,7 +23,10 @@ app.use(
 );
 app.use('/api', product);
 app.use('/', (req, res) => {
-  res.json({ msg: 'working' });
+  res.json({ msg: 'starting page' });
+});
+app.use('/api', (req, res) => {
+  res.json({ msg: 'api page working' });
 });
 app.use('/api', userRoutes);
 app.use('/api', cartRoutes);
