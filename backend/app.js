@@ -22,6 +22,9 @@ app.use(
   })
 );
 app.use('/api', product);
+app.use('/', (req, res) => {
+  res.json({ msg: 'working' });
+});
 app.use('/api', userRoutes);
 app.use('/api', cartRoutes);
 app.use('/api', orderRoutes);
