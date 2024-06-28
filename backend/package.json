@@ -15,12 +15,12 @@
     "validator": "^13.11.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   },
   "name": "ecommerce",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "api/index.js",
   "author": "",
   "license": "ISC",
   "description": ""
