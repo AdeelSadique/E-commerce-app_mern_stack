@@ -12,13 +12,8 @@
      
         "dest": "index.js"
         
-      },
-      {
-        "src": "/testing",
-     
-        "dest": "app.js"
-        
       }
+    
    
    
   

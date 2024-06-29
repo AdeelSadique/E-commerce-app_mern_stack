@@ -22,12 +22,6 @@ app.use(
   })
 );
 app.use('/api', product);
-app.use('/', (req, res) => {
-  res.json({ msg: 'starting page' });
-});
-app.use('/testing', (req, res) => {
-  res.json({ msg: ' testing api page working' });
-});
 app.use('/api', userRoutes);
 app.use('/api', cartRoutes);
 app.use('/api', orderRoutes);
