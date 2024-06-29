@@ -22,6 +22,8 @@ app.use(
     origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
     methods: '*',
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    preflightContinue: false,
   })
 );
 app.use('/api', product);
