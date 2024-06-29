@@ -10,14 +10,13 @@
       {
         "src": "/(.*)",
      
-        "dest": "server.js"
+        "dest": "server.js",
         
+        "methods":["GET","POST"],
+        "headers":{"Access-Control-Allow-Origin":"https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app"}
+        
+      }]
       }
     
-   
-   
-  
     
-    ]
-  }
   
