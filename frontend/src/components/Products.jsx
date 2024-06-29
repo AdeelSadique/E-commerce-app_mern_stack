@@ -106,7 +106,7 @@ function Products() {
     if (param != undefined && param.substring(0, 3) === 'cat') {
       dispatch(
         getAllProducts(
-          `http://127.0.0.1:4000/api/products?category=${param.substring(9)}&price[gte]=${rangePrice[0]}&price[lte]=${
+          `https://e-commerce-app-mern-stackbackend-3yd5l0j7i.vercel.app/api/products?category=${param.substring(9)}&price[gte]=${rangePrice[0]}&price[lte]=${
             rangePrice[1]
           }&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
         )
