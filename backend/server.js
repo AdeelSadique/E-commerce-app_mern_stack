@@ -11,7 +11,6 @@ process.on('uncaughtException', (err) => {
 
 app.use(
   cors({
-    credentials: true,
     origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
   })
 );
