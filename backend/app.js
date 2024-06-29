@@ -18,7 +18,9 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: '*',
+    origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
+    methods: '*',
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 app.use('/api', product);
