@@ -52,7 +52,7 @@ const Home = () => {
   // };
 
   useEffect(() => {
-    dispatch(getAllProducts(`https://e-commerce-app-mern-stackbackend-3yd5l0j7i.vercel.app/api/products?page=${currentPage}`));
+    dispatch(getAllProducts(`https://e-commerce-app-mern-stackback-git-bfb9e2-adeelsadiques-projects.vercel.app/api/products?page=${currentPage}`));
   }, [dispatch, currentPage]);
   return (
     <Fragment>
