@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, HStack, Heading, Input, Stack, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, HStack, Heading, Input, Stack, VStack, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { Fragment, useState } from 'react';
@@ -13,6 +13,7 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setComfirmPassword] = useState('');
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const signupHandler = () => {
     const cancelToken = axios.CancelToken.source();
@@ -22,14 +23,21 @@ function Signup() {
         const { token } = res.data;
         Cookies.set('token', token, { path: '/' });
         dispatch(getUser());
-
+        toast({ title: 'Success', description: 'Successfully Registered', status: 'success', duration: 3000, isClosable: true });
         navigate('/auth');
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           console.log('too many requests');
         }
-        console.log(err.response.data);
+        toast({
+          title: 'Error',
+          description: err.response.data.message ? err.response.data.message : 'Failed to register',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+        console.log(err);
       });
     return () => {
       cancelToken.cancel();

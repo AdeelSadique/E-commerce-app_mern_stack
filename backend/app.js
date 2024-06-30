@@ -8,6 +8,7 @@ const orderRoutes = require('./routes/order');
 const errorMiddleware = require('./middleware/errorMiddleware');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,8 @@ app.use(express.json());
 app.use('./public', express.static(path.join(path.resolve(), './public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+dotenv.config({ path: './config/config.env' });
 
 app.use(
   cors({

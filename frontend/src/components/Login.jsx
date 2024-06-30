@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, HStack, Heading, Input, Stack, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, HStack, Heading, Input, Stack, VStack, useToast } from '@chakra-ui/react';
 import React, { Fragment, useState } from 'react';
 import { Link, json, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -14,6 +14,8 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const toast = useToast();
+
   const dispatch = useDispatch();
   const loginHandler = () => {
     const cancelToken = axios.CancelToken.source();
@@ -30,15 +32,24 @@ function Login() {
           dispatch(getUser());
           setTimeout(() => {
             navigate('/auth');
+            toast({ title: 'Success', description: 'Successfully Login', status: 'success', duration: 3000, isClosable: true });
           }, 1000);
         } else {
           navigate('/login');
+          toast({ title: 'Error', description: 'Try Again', status: 'error', duration: 3000, isClosable: true });
         }
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           console.log('too many requests');
         }
+        toast({
+          title: 'Error',
+          description: err.response.data.message ? err.response.data.message : 'Failed to login',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
         console.log(err);
       });
     return () => {

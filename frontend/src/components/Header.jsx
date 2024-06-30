@@ -1,18 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Avatar,
-  Button,
-  Heading,
-  IconButton,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Progress,
-  Stack,
-  Tooltip,
-} from '@chakra-ui/react';
+import { Avatar, Button, Heading, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Progress, Stack, Tooltip, useToast } from '@chakra-ui/react';
 import { MdLogin } from 'react-icons/md';
 import { FaCartArrowDown, FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
@@ -27,6 +14,7 @@ function Header() {
   const [activePage, setActivePage] = useState({ home: true, products: false, aboutus: false, contactus: false });
   const [searchChange, setSearchChange] = useState('');
   const { loading, data } = useSelector((state) => state.user);
+  const toast = useToast();
 
   const activePageChacker = (path) => {
     if (path == '/') {
@@ -61,14 +49,17 @@ function Header() {
       )
       .then((res) => {
         Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
+        toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
         navigate('/login');
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
           navigate('/login');
+          toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
           console.log('too many requests');
         }
+        toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
         Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
         navigate('/login');
         console.log(err);
