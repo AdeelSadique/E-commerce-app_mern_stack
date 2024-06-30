@@ -106,7 +106,7 @@ function Products() {
     if (param != undefined && param.substring(0, 3) === 'cat') {
       dispatch(
         getAllProducts(
-          `https://e-commerce-app-mern-stackbackend-adeelsadiques-projects.vercel.app/api/products?category=${param.substring(9)}&price[gte]=${
+          `${process.env.BACKEND_URL}/products?category=${param.substring(9)}&price[gte]=${
             rangePrice[0]
           }&price[lte]=${rangePrice[1]}&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
         )

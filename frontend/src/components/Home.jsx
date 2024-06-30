@@ -52,7 +52,7 @@ const Home = () => {
   // };
 
   useEffect(() => {
-    dispatch(getAllProducts(`https://e-commerce-app-mern-stackbackend-adeelsadiques-projects.vercel.app/api/products?page=${currentPage}`));
+    dispatch(getAllProducts(`${process.env.BACKEND_URL}/api/products?page=${currentPage}`));
   }, [dispatch, currentPage]);
   return (
     <Fragment>

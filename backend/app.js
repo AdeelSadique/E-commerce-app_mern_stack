@@ -24,12 +24,10 @@ app.use(
 );
 
 app.use('api', product);
-app.use('/api/testing', (req, res) => {
-  res.json({ msg: 'testing complete' });
-});
-app.use('/api', userRoutes);
-app.use('/api', cartRoutes);
-app.use('/api', orderRoutes);
+
+app.use('api', userRoutes);
+app.use('api', cartRoutes);
+app.use('api', orderRoutes);
 app.use(errorMiddleware);
 
 module.exports = app;
