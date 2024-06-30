@@ -10,15 +10,16 @@ const { cloudinaryFileUploader } = require('../util/cloudinary');
 exports.getAllProducts = async (req, res, next) => {
   try {
     // 10 products per page
-    const productPerPage = 8;
-    const apiFeatures = new ApiFeatures(Product.find(), req.query).search().filter().pagination(productPerPage);
-    const products = await apiFeatures.query;
-    const productCounts = await Product.countDocuments();
-    if (products) {
-      res.status(200).json({ success: true, products, productCounts });
-    } else {
-      next(new ErrorHandler('Products not found', 404));
-    }
+    // const productPerPage = 8;
+    // const apiFeatures = new ApiFeatures(Product.find(), req.query).search().filter().pagination(productPerPage);
+    // const products = await apiFeatures.query;
+    // const productCounts = await Product.countDocuments();
+    // if (products) {
+    //   res.status(200).json({ success: true, products, productCounts });
+    // } else {
+    //   next(new ErrorHandler('Products not found', 404));
+    // }
+    res.status(200).json({ msg: 'product api is working' });
   } catch (error) {
     next(error);
   }

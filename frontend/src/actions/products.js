@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 export const getAllProducts = createAsyncThunk('product/getAllProducts', async (url, thunkApi) => {
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axios.get(url, { withCredentials: true });
     return data;
   } catch (error) {
     throw Error(error.message);
