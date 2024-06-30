@@ -15,13 +15,15 @@ app.use(express.json());
 app.use('./public', express.static(path.join(path.resolve(), './public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use(cors());
-app.use(
-  cors({
-    credentials: true,
-    origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
-  })
-);
+app.use((req, res) => {
+  res.header('Access-Control-Allow-Origin', 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app');
+});
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
+//   })
+// );
 app.use('/api', product);
 app.use('/api', userRoutes);
 app.use('/api', cartRoutes);
