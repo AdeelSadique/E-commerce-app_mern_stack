@@ -19,11 +19,11 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.FRONT_URL, '*'],
+    origin: process.env.FRONT_URL,
   })
 );
 
-app.use('api' || '/api', product);
+app.use('api', product);
 
 app.use('api', userRoutes);
 app.use('api', cartRoutes);
