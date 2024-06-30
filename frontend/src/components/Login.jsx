@@ -46,7 +46,7 @@ function Login() {
         }
         toast({
           title: 'Error',
-          description: err.response.data.message ? err.response.data.message : 'Failed to login',
+          description: err.response.data.message || 'Failed to login',
           status: 'error',
           duration: 3000,
           isClosable: true,
