@@ -16,10 +16,16 @@ app.use('./public', express.static(path.join(path.resolve(), './public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
+//   })
+// );
 app.use(
   cors({
     credentials: true,
-    origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
+    origin: '*',
   })
 );
 app.use('/api', product);
