@@ -51,7 +51,8 @@ exports.login = async (req, res, next) => {
           const cookieOptions = {
             httpOnly: true,
             expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
-            sameSite: 'None',
+            sameSite: 'none',
+            domain: process.env.FRONT_URL,
           };
 
           // cookie setted for 6 hour
