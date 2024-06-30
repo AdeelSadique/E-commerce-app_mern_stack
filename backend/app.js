@@ -23,7 +23,7 @@ app.use(
   })
 );
 
-app.use('api', product);
+app.use('/api', product);
 
 app.use('api', userRoutes);
 app.use('api', cartRoutes);
