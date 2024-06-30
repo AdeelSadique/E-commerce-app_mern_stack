@@ -45,12 +45,17 @@ function Profile() {
     dispatch(getUser());
   }, [dispatch]);
   return (
-    <Box maxW={'full'} p={4}>
-      <Heading>
-        user dashboard
-        {data.email}
-      </Heading>
-    </Box>
+    <>
+      {loading ? (
+        <h1>data is loading</h1>
+      ) : (
+        <div>
+          <h1>user</h1>
+          <h4>{data.name}</h4>
+          <h4>{data.email}</h4>
+        </div>
+      )}
+    </>
   );
 }
 
