@@ -16,12 +16,12 @@ app.use('./public', express.static(path.join(path.resolve(), './public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin: 'https://e-commerce-app-mern-stack-47dv-66kfq9hj1-adeelsadiques-projects.vercel.ap',
+  })
+);
 // app.use(
 //   cors({
 //     credentials: true,
@@ -38,13 +38,12 @@ app.use(cookieParser());
 // )
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://e-commerce-app-mern-stack-47dv-66kfq9hj1-adeelsadiques-projects.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
-  next();
 });
 
 app.use('/api', product);
