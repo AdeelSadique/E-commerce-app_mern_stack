@@ -11,24 +11,26 @@ import UserDashboard from './user/UserDashboard';
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.user);
+
+  const { data, loading } = useSelector((state) => state.user);
+  const isLogged = Cookies.get('token');
+  dispatch(getUser());
 
   useEffect(() => {
-    const isLogged = Cookies.get('token');
+    dispatch(getUser());
+    // const isLogged = Cookies.get('token');
 
-    if (isLogged && data) {
-      // dispatch(getUser());
-
-      setTimeout(() => {
-        if (data.role === 'admin') {
-          navigate('/admin/dashboard');
-        } else {
-          navigate('/user/dashboard');
-        }
-      }, 1000);
-    } else {
-      navigate('/login');
-    }
+    // if (isLogged && data) {
+    //   setTimeout(() => {
+    //     if (data.role === 'admin') {
+    //       navigate('/admin/dashboard');
+    //     } else {
+    //       navigate('/user/dashboard');
+    //     }
+    //   });
+    // } else {
+    //   navigate('/login');
+    // }
 
     // setInterval(() => {
     //   navigate('/login');
@@ -37,7 +39,15 @@ const Auth = () => {
 
   return (
     <>
-      <h1>Authenticating</h1>
+      {loading ? (
+        <h1>Authenticating</h1>
+      ) : data.role === 'admin' ? (
+        navigate('/admin/dashboard')
+      ) : data.role === 'user' ? (
+        navigate('/user/dashboard')
+      ) : (
+        navigate('/login')
+      )}
     </>
   );
 };
