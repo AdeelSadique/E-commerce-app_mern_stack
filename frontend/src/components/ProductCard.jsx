@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import image1 from '../assets/1.jpg';
 import './products.css';
 import { Box, Card, CardBody, CardFooter, CardHeader, Heading, Image, Stack, Text, VStack } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
 import ReactStars from 'react-stars';
 function ProductCard({ product }) {
   return (

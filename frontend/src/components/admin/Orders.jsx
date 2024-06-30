@@ -11,7 +11,7 @@ const Orders = () => {
   const updateStatusHandler = (id, status) => {
     axios
       .put(
-        `http://localhost:4000/api/allOrders/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/allOrders/${id}`,
         { status },
         {
           withCredentials: true,

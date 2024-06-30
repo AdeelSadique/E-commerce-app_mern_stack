@@ -11,7 +11,7 @@ function MyOrders() {
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
-        'http://localhost:4000/api/myOrders',
+        `${import.meta.env.VITE_BACKEND_URL}/api/myOrders`,
         {
           withCredentials: true,
         },

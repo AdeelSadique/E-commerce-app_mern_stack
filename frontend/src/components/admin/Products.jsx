@@ -58,7 +58,7 @@ const Products = () => {
     setUpdateProduct(true);
     setProductId(id);
     axios
-      .get(`http://localhost:4000/api/product/${id}`, { withCredentials: true })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`, { withCredentials: true })
       .then((res) => {
         setProduct({ ...res.data.product });
         onOpen();
@@ -70,12 +70,12 @@ const Products = () => {
   };
   const updateProductHandler = () => {
     axios
-      .put(`http://localhost:4000/api/product/${productId}`, product, { withCredentials: true })
+      .put(`${import.meta.env.VITE_BACKEND_URL}/api/product/${productId}`, product, { withCredentials: true })
       .then((res) => {
         setProduct({ ...res.data.product });
         setUpdateProduct(false);
         // we will getAllProducts on update
-        dispatch(getAllProducts(`http://localhost:4000/api/products?page=${currentPage}`));
+        dispatch(getAllProducts(`${import.meta.env.VITE_BACKEND_URL}/api/products?page=${currentPage}`));
         onClose();
         toast({ title: 'Success', description: 'Product updated successfully', status: 'success', duration: 3000, isClosable: true });
       })
@@ -96,10 +96,10 @@ const Products = () => {
     formData.append('images', image1);
     formData.append('images', image2);
     axios
-      .post(`http://localhost:4000/api/products`, formData, { withCredentials: true })
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/products`, formData, { withCredentials: true })
       .then((res) => {
         // we will fetch products on update
-        dispatch(getAllProducts(`http://localhost:4000/api/products?page=${currentPage}`));
+        dispatch(getAllProducts(`${import.meta.env.VITE_BACKEND_URL}/api/products?page=${currentPage}`));
         onClose();
         if (res.data.success) {
           toast({ title: 'Success', description: 'Product added successfully', status: 'success', duration: 3000, isClosable: true });
@@ -118,7 +118,7 @@ const Products = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllProducts(`http://localhost:4000/api/products?page=${currentPage}`));
+    dispatch(getAllProducts(`${import.meta.env.VITE_BACKEND_URL}/api/products?page=${currentPage}`));
   }, [currentPage, dispatch]);
   return (
     <>

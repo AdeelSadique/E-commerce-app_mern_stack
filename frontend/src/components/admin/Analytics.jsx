@@ -31,7 +31,7 @@ function Analytics() {
     // checkstatus is initially empty so it will fetch all orders and then with status
     axios
       .get(
-        `http://localhost:4000/api/allOrders`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/allOrders`,
         {
           withCredentials: true,
         },

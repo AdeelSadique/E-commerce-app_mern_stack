@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
-  AvatarBadge,
   Button,
   Heading,
   IconButton,
-  Image,
   Input,
   Menu,
   MenuButton,
@@ -13,19 +11,15 @@ import {
   MenuList,
   Progress,
   Stack,
-  Text,
   Tooltip,
 } from '@chakra-ui/react';
 import { MdLogin } from 'react-icons/md';
 import { FaCartArrowDown, FaSearch } from 'react-icons/fa';
-import { CgProfile } from 'react-icons/cg';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import userContext from '../reducers/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../actions/user';
-// import isAuth from './auth';
 
 function Header() {
   const navigate = useNavigate();
@@ -59,7 +53,7 @@ function Header() {
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
-        `http://localhost:4000/api/logout`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/logout`,
         {
           withCredentials: true,
         },

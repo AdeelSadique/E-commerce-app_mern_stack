@@ -1,37 +1,23 @@
 import {
-  Alert,
   Box,
   Button,
   ButtonGroup,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
   Divider,
-  FormControl,
-  FormHelperText,
-  FormLabel,
   Heading,
-  Image,
-  Input,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderThumb,
   RangeSliderTrack,
   SimpleGrid,
-  Slider,
   Stack,
   Text,
   VStack,
-  transform,
 } from '@chakra-ui/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
 
-import image1 from '../assets/1.jpg';
-import productsData from './productsData';
 import axios, { Axios } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../actions/products';
@@ -43,59 +29,23 @@ function Products() {
   const { param } = useParams();
   const [rangePrice, setRangePrice] = useState([0, 1000]);
   const [rangeReview, setRangeReview] = useState([0, 5]);
-  // const [products, setProducts] = useState([]);
 
-  // const [totalPages, setTotalPages] = useState(Math.ceil(productCounts / 8));
   const [currentPage, setCurrentPage] = useState(1);
 
   const nextPageHandler = () => {
     setCurrentPage((currentPage) => currentPage + 1);
-    // axios
-    //   .get(`http://127.0.0.1:4000/api/products?page=${currentPage}`)
-    //   .then((data) => {
-    //     const { products } = data.data;
-    //     setProducts(products);
-    //     // const TP = Math.floor(data.data.productCounts) / 8;
-    //     // setTotalPages(TP);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
   const previousPageHandler = () => {
     setCurrentPage((currentPage) => currentPage - 1);
 
-    // axios
-    //   .get(`http://127.0.0.1:4000/api/products?page=${currentPage}`)
-    //   .then((data) => {
-    //     const { products } = data.data;
-    //     setProducts(products);
-    //     // const TP = Math.floor(data.data.productCounts) / 8;
-    //     // setTotalPages(TP);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
   const currentPageHandler = (page) => {
     setCurrentPage(page);
-    // axios
-    //   .get(`http://127.0.0.1:4000/api/products?page=${page}`)
-    //   .then((data) => {
-    //     const { products } = data.data;
-    //     setProducts(products);
-    //     // const TP = Math.floor(data.data.productCounts) / 8;
-    //     // setTotalPages(TP);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 
   const resetFilter = () => {
     setRangePrice(() => [0, 2000]);
     setRangeReview(() => [0, 5]);
-    // dispatch(getAllProducts(`http://127.0.0.1:4000/api/products?page=${currentPage}`));
   };
 
   useEffect(() => {
@@ -106,7 +56,7 @@ function Products() {
     if (param != undefined && param.substring(0, 3) === 'cat') {
       dispatch(
         getAllProducts(
-          `${process.env.BACKEND_URL}/products?category=${param.substring(9)}&price[gte]=${
+          `${import.meta.env.VITE_BACKEND_URL}/products?category=${param.substring(9)}&price[gte]=${
             rangePrice[0]
           }&price[lte]=${rangePrice[1]}&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
         )
@@ -114,7 +64,7 @@ function Products() {
     } else if (param != undefined && param.substring(0, 3) === 'sea') {
       dispatch(
         getAllProducts(
-          `http://127.0.0.1:4000/api/products?search=${param.substring(7)}&price[gte]=${rangePrice[0]}&price[lte]=${
+          `${import.meta.env.VITE_BACKEND_URL}/api/products?search=${param.substring(7)}&price[gte]=${rangePrice[0]}&price[lte]=${
             rangePrice[1]
           }&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
         )
@@ -122,7 +72,7 @@ function Products() {
     } else if (param != undefined && param.substring(0, 3) === 'pri') {
       dispatch(
         getAllProducts(
-          `http://127.0.0.1:4000/api/products?price=${param.substring(6)}&price[gte]=${rangePrice[0]}&price[lte]=${
+          `${import.meta.env.VITE_BACKEND_URL}/api/products?price=${param.substring(6)}&price[gte]=${rangePrice[0]}&price[lte]=${
             rangePrice[1]
           }&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
         )
@@ -130,11 +80,11 @@ function Products() {
     } else if (setRangePrice || setRangeReview) {
       dispatch(
         getAllProducts(
-          `http://localhost:4000/api/products?price[gte]=${rangePrice[0]}&price[lte]=${rangePrice[1]}&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/products?price[gte]=${rangePrice[0]}&price[lte]=${rangePrice[1]}&page=${currentPage}&rating[gte]=${rangeReview[0]}&rating[lte]=${rangeReview[1]}`
         )
       );
     } else {
-      dispatch(getAllProducts(`http://localhost:4000/api/products?page=${currentPage}`));
+      dispatch(getAllProducts(`${import.meta.env.VITE_BACKEND_URL}/api/products?page=${currentPage}`));
     }
     return () => {
       cancelToken.cancel();

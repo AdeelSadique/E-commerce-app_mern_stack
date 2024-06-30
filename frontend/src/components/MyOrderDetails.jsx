@@ -35,7 +35,7 @@ function OrderDetails() {
   const sendMessage = (id) => {
     axios
       .put(
-        `http://localhost:4000/api/chat/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/chat/${id}`,
         { message: messageChange },
         {
           withCredentials: true,

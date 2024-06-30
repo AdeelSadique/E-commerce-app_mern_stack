@@ -34,7 +34,7 @@ function ProductDetail() {
     const cancelToken = axios.CancelToken.source();
     axios
       .post(
-        'http://localhost:4000/api/myCart',
+        `${import.meta.env.VITE_BACKEND_URL}/api/myCart`,
         { productId: id },
         {
           withCredentials: true,

@@ -11,7 +11,7 @@ function Cart() {
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
-        'http://localhost:4000/api/myCart',
+        `${import.meta.env.VITE_BACKEND_URL}/api/myCart`,
         {
           withCredentials: true,
         },
@@ -73,7 +73,7 @@ const CartComponent = ({ product, setPageReloadOnDelede }) => {
     const cancelToken = axios.CancelToken.source();
     axios
       .delete(
-        `http://localhost:4000/api/myCart/${productId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/myCart/${productId}`,
 
         {
           withCredentials: true,

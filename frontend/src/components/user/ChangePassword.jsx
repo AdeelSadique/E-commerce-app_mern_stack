@@ -13,7 +13,7 @@ function ChangePassword() {
     const cancelToken = axios.CancelToken.source();
     axios
       .put(
-        'http://localhost:4000/api/updatePassword',
+        `${import.meta.env.VITE_BACKEND_URL}/api/updatePassword`,
         updatePassword,
         {
           withCredentials: true,
@@ -39,7 +39,7 @@ function ChangePassword() {
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
-        'http://localhost:4000/api/me',
+        `${import.meta.env.VITE_BACKEND_URL}/api/me`,
         {
           withCredentials: true,
         },

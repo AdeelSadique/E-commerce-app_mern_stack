@@ -70,7 +70,7 @@ function PlaceOrder() {
 
     const cancelToken = axios.CancelToken.source();
     axios
-      .post(`http://localhost:4000/api/placeOrder/${findProduct._id}`, form, { withCredentials: true }, { cancelToken: cancelToken })
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/placeOrder/${findProduct._id}`, form, { withCredentials: true }, { cancelToken: cancelToken })
       .then((res) => {
         setOrderId(res.data.order._id);
         setActiveStep(3);
@@ -108,7 +108,7 @@ function PlaceOrder() {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:4000/api/product/${id.split(',')[0]}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/product/${id.split(',')[0]}`)
       .then((data) => {
         const { product } = data.data;
         setFindProduct(product);

@@ -1,20 +1,14 @@
 import { Box, Button, Image, HStack, Heading, VStack, Divider } from '@chakra-ui/react';
-import image1 from '../assets/1.jpg';
 const OrderDetail = ({ props }) => (
   <Box p={4} w={'full'} boxShadow={'lg'}>
     <HStack justifyContent={'space-between'}>
       <Heading textAlign={'center'} size={'md'}>
         Products Details
       </Heading>
-      {/* <Heading textAlign={'center'} size={'md'}>
-          ID #{props.findProduct._id}
-        </Heading> */}
     </HStack>
 
     <HStack justifyContent={'space-between'} w={'full'} mt={4} mx={'auto'} p={2} border={'1px solid gray'}>
       <Image src={props.findProduct.images && props.findProduct.images[0].image1} alt='Image not found' maxW={'20%'} />
-      {/* <VStack alignItems={'flex-start'} w={'full'}>
-      </VStack> */}
 
       <Divider p={2} orientation='vertical' borderColor={'gray'} />
       <VStack alignItems={'flex-start'}>

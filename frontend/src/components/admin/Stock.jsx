@@ -64,7 +64,7 @@ const Stock = () => {
 
   const itemLessThanHandler = () => {
     axios
-      .get('http://localhost:4000/api/products-getAllStock?lessThan=5', { withCredentials: true })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/products-getAllStock?lessThan=5`, { withCredentials: true })
       .then((res) => {
         setOutStockItems(res.data.ItemsLessThan);
       })
@@ -79,7 +79,7 @@ const Stock = () => {
   };
   const addStockHandler = (id, stock) => {
     axios
-      .put(`http://localhost:4000/api/product/${id}`, { stock }, { withCredentials: true })
+      .put(`${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`, { stock }, { withCredentials: true })
       .then((res) => {
         setOutStockItemsFlag(true);
         onClose();
@@ -95,7 +95,7 @@ const Stock = () => {
   useEffect(() => {
     outStockItemsFlag
       ? axios
-          .get('http://localhost:4000/api/products-getAllStock', { withCredentials: true })
+          .get(`${import.meta.env.VITE_BACKEND_URL}/api/products-getAllStock`, { withCredentials: true })
           .then((res) => {
             setOutStockItems(res.data.outStockItems);
             SetStockPercentage({ inStock: res.data.inStockPercentage, outStock: res.data.outStockPercentage });

@@ -19,7 +19,7 @@ const Payment = () => {
 
     axios
       .put(
-        `http://localhost:4000/api/updatePayment/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/updatePayment/${id}`,
         { status },
         {
           withCredentials: true,
@@ -52,7 +52,7 @@ const Payment = () => {
     statusOnUpdate
       ? axios
           .get(
-            `http://localhost:4000/api/allOrders`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/allOrders`,
             {
               withCredentials: true,
             },
