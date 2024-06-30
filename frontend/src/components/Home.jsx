@@ -52,7 +52,7 @@ const Home = () => {
   // };
 
   useEffect(() => {
-    dispatch(getAllProducts(`${process.env.BACKEND_URL}/api/products?page=${currentPage}`));
+    dispatch(getAllProducts(`${import.meta.env.BACKEND_URL}/api/products?page=${currentPage}`));
   }, [dispatch, currentPage]);
   return (
     <Fragment>
