@@ -10,13 +10,8 @@
       {
         "src": "/(.*)",
      
-        "dest": "server.js",
-        "methods": ["GET","POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-          "headers": {
-             "Access-Control-Allow-Origin": "https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app",
-             "Access-Control-Allow-Credentials": "true",
-             "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-         }
+        "dest": "server.js"
+        
         
        
         
