@@ -41,9 +41,9 @@ const Auth = () => {
     <>
       {loading ? (
         <h1>Authenticating</h1>
-      ) : data.role === 'admin' ? (
+      ) : data && data.role === 'admin' ? (
         navigate('/admin/dashboard')
-      ) : data.role === 'user' ? (
+      ) : data && data.role === 'user' ? (
         navigate('/user/dashboard')
       ) : (
         navigate('/login')
