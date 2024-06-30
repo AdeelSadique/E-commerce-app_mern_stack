@@ -20,7 +20,7 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(getAllProducts(`https://e-commerce-app-mern-stackbackend-adeelsadiques-projects.vercel.app/api/products?page=${currentPage}`));
+    dispatch(getAllProducts(`https://e-commerce-app-mern-stackback-git-bfb9e2-adeelsadiques-projects.vercel.app/api/products?page=${currentPage}`));
   }, [dispatch, currentPage]);
   return (
     <Fragment>
