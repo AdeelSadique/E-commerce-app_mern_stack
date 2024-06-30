@@ -26,7 +26,13 @@ function Login() {
       .then((res) => {
         const { token } = res.data;
         // js-cookie takes values as 1 mean 1 day if want specific we do this
-        Cookie.set('token', token, { path: '/', expires: new Date(Date.now() + 6 * 60 * 60 * 1000) });
+        Cookie.set('token', token, {
+          path: '/',
+          expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+          sameSite: 'None',
+          secure: true,
+          domain: import.meta.env.VITE_BACKEND_URL,
+        });
         // const isLogged = Cookie.get('token');
         dispatch(getUser());
         navigate('/auth');
