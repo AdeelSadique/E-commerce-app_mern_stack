@@ -27,7 +27,7 @@ function Login() {
         const { token } = res.data;
         // js-cookie takes values as 1 mean 1 day if want specific we do this
         Cookie.set('token', token, { path: '/', expires: new Date(Date.now() + 6 * 60 * 60 * 1000) });
-        // const isLogged = Cookie.get('token');
+        const isLogged = Cookie.get('token');
         if (isLogged) {
           dispatch(getUser());
           navigate('/auth');
