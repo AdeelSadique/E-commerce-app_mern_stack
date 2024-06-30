@@ -13,7 +13,7 @@ const Auth = () => {
   const dispatch = useDispatch();
 
   const { data, loading } = useSelector((state) => state.user);
-  const isLogged = Cookies.get('token');
+  // const isLogged = Cookies.get('token');
   dispatch(getUser());
 
   useEffect(() => {
