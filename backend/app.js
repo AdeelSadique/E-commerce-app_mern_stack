@@ -22,12 +22,31 @@ app.use(cookieParser());
 //     origin: 'https://e-commerce-app-mern-stack-47dv-b8o5rrui6-adeelsadiques-projects.vercel.app',
 //   })
 // );
-app.use(
-  cors({
-    credentials: true,
-    origin: '*',
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: '*',
+//   })
+// );
+
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+// res.setHeader(
+//   'Access-Control-Allow-Headers',
+//   'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+// )
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+  next();
+});
+
 app.use('/api', product);
 app.use('/api', userRoutes);
 app.use('/api', cartRoutes);
