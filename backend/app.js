@@ -23,7 +23,7 @@ app.use(
   })
 );
 
-app.use('/api', product);
+app.use('api', product);
 app.use('/api/testing', (req, res) => {
   res.json({ msg: 'testing complete' });
 });
