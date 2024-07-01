@@ -14,7 +14,7 @@ const Auth = () => {
 
   const { data, loading } = useSelector((state) => state.user);
   // const isLogged = Cookies.get('token');
-  dispatch(getUser());
+  // dispatch(getUser());
 
   useEffect(() => {
     dispatch(getUser());

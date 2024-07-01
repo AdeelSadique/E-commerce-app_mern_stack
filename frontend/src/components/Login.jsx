@@ -29,13 +29,15 @@ function Login() {
         Cookie.set('token', token, {
           path: '/',
           expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-          sameSite: 'None',
+          sameSite: 'none',
           secure: true,
           domain: import.meta.env.VITE_BACKEND_URL,
         });
         // const isLogged = Cookie.get('token');
         dispatch(getUser());
-        navigate('/auth');
+        setTimeout(() => {
+          navigate('/auth');
+        }, 1000);
         // if (isLogged) {
         // } else {
         //   navigate('/login');
