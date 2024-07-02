@@ -18,6 +18,8 @@ exports.register = async (req, res, next) => {
       const cookieOptions = {
         httpOnly: true,
         expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
+        secure: true,
+        sameSite: 'None',
       };
 
       // cookie setted for 6 hour
@@ -52,9 +54,7 @@ exports.login = async (req, res, next) => {
             httpOnly: true,
             expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
             sameSite: 'None',
-            // domain: process.env.BACKEND_URL,
             secure: true,
-            // path: '/',
           };
 
           // cookie setted for 6 hour

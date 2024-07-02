@@ -21,7 +21,13 @@ function Signup() {
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, { name, email, password, confirmPassword }, {}, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
-        Cookies.set('token', token, { path: '/' });
+        Cookies.set('token', token, {
+          httpOnly: true,
+          path: '/',
+          expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+          sameSite: 'None',
+          secure: true,
+        });
         dispatch(getUser());
         toast({ title: 'Success', description: 'Successfully Registered', status: 'success', duration: 3000, isClosable: true });
         navigate('/auth');
