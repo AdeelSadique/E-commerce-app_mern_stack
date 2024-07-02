@@ -26,22 +26,22 @@ function Login() {
       .then((res) => {
         const { token } = res.data;
         // js-cookie takes values as 1 mean 1 day if want specific we do this
-        () => {
-          Cookie.set('token', token, {
-            httpOnly: true,
-            path: '/',
-            expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-            sameSite: 'none',
-            secure: true,
-            // domain: import.meta.env.VITE_BACKEND_URL,
-          })();
-        };
-        console.log('local storage', localStorage.getItem('token'));
+
+        Cookie.set('token', token, {
+          httpOnly: true,
+          path: '/',
+          expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+          sameSite: 'none',
+          secure: true,
+          // domain: import.meta.env.VITE_BACKEND_URL,
+        });
+
+        navigate('/auth');
+
         // const isLogged = Cookie.get('token');
         // dispatch(getUser());
-        setTimeout(() => {
-          navigate('/auth');
-        }, 1000);
+        // setTimeout(() => {
+        // }, 1000);
         // if (isLogged) {
         // } else {
         //   navigate('/login');

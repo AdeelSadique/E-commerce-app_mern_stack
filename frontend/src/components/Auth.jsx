@@ -18,6 +18,7 @@ const Auth = () => {
 
   useEffect(() => {
     dispatch(getUser());
+    console.log('local storage', localStorage.getItem('token'));
     console.log('auth page', data);
     console.log('auth page', Cookies.get('token'));
     // const isLogged = Cookies.get('token');
