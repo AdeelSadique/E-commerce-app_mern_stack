@@ -27,14 +27,16 @@ function Login() {
         const { token } = res.data;
         // js-cookie takes values as 1 mean 1 day if want specific we do this
         console.log('cookie from server', token);
-        Cookie.set('token', token, {
-          httpOnly: true,
-          path: '/',
-          expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-          sameSite: 'None',
-          secure: true,
-          // domain: import.meta.env.VITE_BACKEND_URL,
-        });
+        // Cookie.set('token', token, {
+        //   httpOnly: true,
+        //   path: '/',
+        //   expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+        //   sameSite: 'None',
+        //   secure: true,
+        //   // domain: import.meta.env.VITE_BACKEND_URL,
+        // });
+
+        document.cookie = 'favorite_food=tripe; SameSite=None; Secure expires=new Date(Date.now() + 6 * 60 * 60 * 1000);path="/"';
 
         navigate('/auth');
 
