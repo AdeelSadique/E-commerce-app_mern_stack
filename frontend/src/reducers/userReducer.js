@@ -39,7 +39,10 @@ export const userSlice = createSlice({
         state.loading = false;
         state.failed = action.payload;
       })
-      .addCase(deleteUser, (state, action) => {
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.data = {};
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
         state.data = {};
       });
   },
