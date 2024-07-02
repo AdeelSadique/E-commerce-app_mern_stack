@@ -37,6 +37,9 @@ export const userSlice = createSlice({
       .addCase(getUser.rejected, (state, action) => {
         state.loading = false;
         state.failed = action.payload;
+      })
+      .addCase('deleteUser', (state, action) => {
+        state.data = {};
       });
   },
 });

@@ -48,19 +48,20 @@ function Header() {
         { cancelToken: cancelToken }
       )
       .then((res) => {
-        Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
+        Cookies.remove('token', { httpOnly: true, path: '/', expires: 1, sameSite: 'None', secure: true });
+        dispatch('deleteUser');
         toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
         navigate('/login');
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
-          Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
+          Cookies.remove('token', { httpOnly: true, path: '/', expires: 1, sameSite: 'None', secure: true });
           navigate('/login');
           toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
           console.log('too many requests');
         }
         toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
-        Cookies.remove('token', { path: '/', expires: new Date(Date.now()) });
+        Cookies.remove('token', { httpOnly: true, path: '/', expires: 1, sameSite: 'None', secure: true });
         navigate('/login');
         console.log(err);
       });
