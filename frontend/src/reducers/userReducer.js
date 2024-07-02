@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getUser } from '../actions/user';
+import { deleteUser } from '../actions/user';
 import { getAllProducts } from '../actions/products';
 
 const initialState = {
@@ -38,7 +39,7 @@ export const userSlice = createSlice({
         state.loading = false;
         state.failed = action.payload;
       })
-      .addCase('deleteUser', (state, action) => {
+      .addCase(deleteUser, (state, action) => {
         state.data = {};
       });
   },

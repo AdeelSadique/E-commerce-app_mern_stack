@@ -9,7 +9,7 @@ export const getUser = createAsyncThunk('user/getUser', async () => {
     throw Error(error.message);
   }
 });
-export const deteteUser = createAsyncThunk('user/getUser', async () => {
+export const deleteUser = createAsyncThunk('user/deleteUser', async () => {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/me`, { withCredentials: true });
     return data;

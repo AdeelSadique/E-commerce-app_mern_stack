@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../actions/user';
+import { deleteUser, getUser } from '../actions/user';
 
 function Header() {
   const navigate = useNavigate();
@@ -49,19 +49,21 @@ function Header() {
       )
       .then((res) => {
         Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
-        dispatch({ action: 'deleteUser' });
+        dispatch(deleteUser());
         toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
         navigate('/login');
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
+          dispatch(deleteUser());
           navigate('/login');
           toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
           console.log('too many requests');
         }
         toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
         Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
+        dispatch(deleteUser());
         navigate('/login');
         console.log(err);
       });
