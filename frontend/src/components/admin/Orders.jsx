@@ -36,7 +36,7 @@ const Orders = () => {
     statusOnUpdate
       ? axios
           .get(
-            `http://localhost:4000/api/allOrders?status=${checkStatus}`,
+            `${import.meta.env.VITE_BACKEND_URL}/allOrders?status=${checkStatus}`,
             {
               withCredentials: true,
             },

@@ -22,7 +22,7 @@ function Login() {
     // dispatch(isLoading());
     // Cookie.remove('token', { path: '/', expires: new Date(Date.now()) });
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, { email, password }, {}, { cancelToken: cancelToken })
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, { email, password }, { withCredentials: true }, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
         // js-cookie takes values as 1 mean 1 day if want specific we do this
