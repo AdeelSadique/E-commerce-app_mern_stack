@@ -39,7 +39,7 @@ function Signup() {
         }
         toast({
           title: 'Error',
-          description: err.response.data.message ? err.response.data.message : 'Failed to register',
+          description: 'Failed to register',
           status: 'error',
           duration: 3000,
           isClosable: true,
