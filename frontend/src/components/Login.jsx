@@ -31,7 +31,7 @@ function Login() {
           // httpOnly: true,
           path: '/',
           expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-          sameSite: 'none',
+          sameSite: 'None',
           secure: true,
           // domain: import.meta.env.VITE_BACKEND_URL,
         });
