@@ -19,7 +19,6 @@ const Auth = () => {
   useEffect(() => {
     dispatch(getUser());
     // const isLogged = Cookies.get('token');
-    console.log(document.cookie);
 
     // if (isLogged && data) {
     //   setTimeout(() => {
