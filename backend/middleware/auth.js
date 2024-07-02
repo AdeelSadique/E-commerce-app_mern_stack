@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 // const cookie = require('cookie-parser');
 exports.isAuthenticated = async (req, res, next) => {
   const { token } = req.cookies;
+  console.log('backend cookie', token);
   if (!token) {
     next(new ErrorHandler('Authorized users only can access', 401));
   } else {
