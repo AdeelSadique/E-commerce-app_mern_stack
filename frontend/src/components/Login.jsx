@@ -28,10 +28,10 @@ function Login() {
         // js-cookie takes values as 1 mean 1 day if want specific we do this
         console.log('cookie from server', token);
         Cookie.set('token', token, {
-          httpOnly: true,
+          // httpOnly: true,
           path: '/',
           expires: 1,
-          sameSite: 'None',
+          // sameSite: 'None',
           secure: true,
         });
 
