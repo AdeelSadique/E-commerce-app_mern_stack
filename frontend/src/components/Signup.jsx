@@ -20,17 +20,18 @@ function Signup() {
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, { name, email, password, confirmPassword }, {}, { cancelToken: cancelToken })
       .then((res) => {
-        const { token } = res.data;
-        Cookies.set('token', token, {
-          // httpOnly: true,
+        Cookie.set('token', token, {
           path: '/',
           expires: 1,
-          // sameSite: 'None',
           secure: true,
         });
+
         dispatch(getUser());
+        setTimeout(() => {
+          navigate('/auth');
+        }, 1000);
+
         toast({ title: 'Success', description: 'Successfully Registered', status: 'success', duration: 3000, isClosable: true });
-        navigate('/auth');
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
