@@ -16,10 +16,10 @@ exports.register = async (req, res, next) => {
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
       const cookieOptions = {
-        // httpOnly: true,
         expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
         secure: true,
         sameSite: 'None',
+        path: '',
       };
 
       // cookie setted for 6 hour
