@@ -22,10 +22,10 @@ function Signup() {
       .then((res) => {
         const { token } = res.data;
         Cookies.set('token', token, {
-          httpOnly: true,
+          // httpOnly: true,
           path: '/',
           expires: 1,
-          sameSite: 'None',
+          // sameSite: 'None',
           secure: true,
         });
         dispatch(getUser());

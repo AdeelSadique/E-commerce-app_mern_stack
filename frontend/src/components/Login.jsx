@@ -31,7 +31,6 @@ function Login() {
           // httpOnly: true,
           path: '/',
           expires: 1,
-          // sameSite: 'None',
           secure: true,
         });
 
