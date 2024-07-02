@@ -19,7 +19,7 @@ exports.register = async (req, res, next) => {
         expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
         secure: true,
         sameSite: 'None',
-        path: '',
+        path: '/',
       };
 
       // cookie setted for 6 hour
