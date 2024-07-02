@@ -30,7 +30,7 @@ function Login() {
         Cookie.set('token', token, {
           httpOnly: true,
           path: '/',
-          expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+          expires: 1,
           sameSite: 'None',
           secure: true,
         });
