@@ -20,6 +20,7 @@ function Signup() {
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, { name, email, password, confirmPassword }, {}, { cancelToken: cancelToken })
       .then((res) => {
+        const { token } = res.data;
         Cookie.set('token', token, {
           path: '/',
           expires: 1,
@@ -39,7 +40,7 @@ function Signup() {
         }
         toast({
           title: 'Error',
-          description: 'Failed to register',
+          description: err.response.data.message || 'Failed to register',
           status: 'error',
           duration: 3000,
           isClosable: true,
