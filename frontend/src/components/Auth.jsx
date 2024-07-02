@@ -18,7 +18,6 @@ const Auth = () => {
 
   useEffect(() => {
     dispatch(getUser());
-    console.log('auth page cookie', Cookies.get('token'));
     // const isLogged = Cookies.get('token');
 
     // if (isLogged && data) {
@@ -47,8 +46,7 @@ const Auth = () => {
       ) : data && data.role === 'user' ? (
         navigate('/user/dashboard')
       ) : (
-        // navigate('/login')
-        ''
+        navigate('/login')
       )}
     </>
   );
