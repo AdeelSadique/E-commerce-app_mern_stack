@@ -6,13 +6,16 @@ const jwt = require('jsonwebtoken');
 exports.isAuthenticated = async (req, res, next) => {
   const { token } = req.cookies;
   console.log('backend cookie', token);
-  if (!token) {
-    next(new ErrorHandler('Authorized users only can access', 401));
-  } else {
-    const decodedUser = jwt.verify(token, process.env.JWTSECRETKEY);
-    req.user = await userModel.findById(decodedUser.id);
-    next();
-  }
+  const decodedUser = jwt.verify(token, process.env.JWTSECRETKEY);
+  req.user = await userModel.findById(decodedUser.id);
+  next();
+  // if (!token) {
+  //   next(new ErrorHandler('Authorized users only can access', 401));
+  // } else {
+  //   const decodedUser = jwt.verify(token, process.env.JWTSECRETKEY);
+  //   req.user = await userModel.findById(decodedUser.id);
+  //   next();
+  // }
 };
 
 exports.rolesAuthentication = (...roles) => {
