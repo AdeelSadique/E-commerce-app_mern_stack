@@ -51,10 +51,11 @@ exports.login = async (req, res, next) => {
         } else {
           const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
           const cookieOptions = {
-            httpOnly: true,
+            // httpOnly: true,
             expires: new Date(Date.now() + 60 * 60 + 6 * 1000),
             sameSite: 'None',
             secure: true,
+            path: '/',
           };
 
           // cookie setted for 6 hour
