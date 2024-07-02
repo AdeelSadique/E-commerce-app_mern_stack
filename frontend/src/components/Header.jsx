@@ -49,7 +49,7 @@ function Header() {
       )
       .then((res) => {
         Cookies.remove('token', { httpOnly: true, path: '/', expires: 1, sameSite: 'None', secure: true });
-        dispatch('deleteUser');
+        dispatch({ action: 'deleteUser' });
         toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
         navigate('/login');
       })
