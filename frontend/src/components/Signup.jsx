@@ -30,9 +30,9 @@ function Signup() {
         dispatch(getUser());
         setTimeout(() => {
           navigate('/auth');
-        }, 1000);
 
-        toast({ title: 'Success', description: 'Successfully Registered', status: 'success', duration: 3000, isClosable: true });
+          toast({ title: 'Success', description: 'Successfully Registered', status: 'success', duration: 3000, isClosable: true });
+        }, 1000);
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
