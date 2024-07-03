@@ -33,7 +33,7 @@ function Login() {
         //   sameSite: 'None',
         // });
 
-        dispatch(deleteUser());
+        // dispatch(deleteUser());
         setTimeout(() => {
           dispatch(getUser());
           navigate('/auth');
