@@ -62,7 +62,7 @@ const Orders = () => {
     <>
       <Container maxW={'full'} bgColor={'whitesmoke'}>
         <HStack w={'full'} justifyContent={'space-between'} p={4}>
-          <Link to={'/admin/dashboard'}>
+          <Link to={window.history.back()}>
             <Button colorScheme='orange'>Home</Button>
           </Link>
           <ButtonGroup colorScheme='orange' variant={'outline'}>

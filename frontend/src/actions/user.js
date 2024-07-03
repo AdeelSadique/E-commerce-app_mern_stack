@@ -11,7 +11,7 @@ export const getUser = createAsyncThunk('user/getUser', async () => {
 });
 export const deleteUser = createAsyncThunk('user/deleteUser', async () => {
   try {
-    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/me`, { withCredentials: true });
+    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, { withCredentials: true });
     return data;
   } catch (error) {
     throw Error(error.message);

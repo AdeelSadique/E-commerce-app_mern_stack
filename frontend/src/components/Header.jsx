@@ -38,35 +38,10 @@ function Header() {
     }
   };
   const logoutHandler = () => {
-    const cancelToken = axios.CancelToken.source();
-    axios
-      .get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/logout`,
-        {
-          withCredentials: true,
-        },
-        { cancelToken: cancelToken }
-      )
-      .then((res) => {
-        Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
-        dispatch(deleteUser());
-        toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
-        navigate('/login');
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) {
-          // Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
-          // dispatch(deleteUser());
-          // navigate('/login');
-          // toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
-          console.log('too many requests');
-        }
-        toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
-        Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
-        dispatch(deleteUser());
-        navigate('/login');
-        console.log(err);
-      });
+    Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
+    dispatch(deleteUser());
+    toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
+    navigate('/login');
   };
 
   useEffect(() => {
