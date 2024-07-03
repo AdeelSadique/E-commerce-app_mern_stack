@@ -18,10 +18,12 @@ const Orders = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
+        toast({ title: 'Success', description: 'Successfully Order Updated', status: 'success', duration: 3000, isClosable: true });
         setStatusOnUpdate(true);
       })
       .catch((err) => {
+        toast({ title: 'Error', description: 'Failed to Update Order', status: 'error', duration: 3000, isClosable: true });
         console.log(err);
       });
   };
@@ -62,9 +64,9 @@ const Orders = () => {
     <>
       <Container maxW={'full'} bgColor={'whitesmoke'}>
         <HStack w={'full'} justifyContent={'space-between'} p={4}>
-          <Link to={window.history.back()}>
-            <Button colorScheme='orange'>Home</Button>
-          </Link>
+          <Button colorScheme='orange' onClick={window.history.back()}>
+            Back
+          </Button>
           <ButtonGroup colorScheme='orange' variant={'outline'}>
             <Button onClick={() => setCheckStatusHandler('')}>All</Button>
             <Button onClick={() => setCheckStatusHandler('0')}>Processing</Button>
