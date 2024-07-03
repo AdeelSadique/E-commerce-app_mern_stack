@@ -20,7 +20,7 @@ exports.register = async (req, res, next) => {
         secure: true,
         sameSite: 'None',
         path: '/',
-        maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        // maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
       };
 
       // cookie setted for 6 hour
@@ -57,7 +57,7 @@ exports.login = async (req, res, next) => {
             sameSite: 'None',
             secure: true,
             path: '/',
-            maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
+            // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
           // cookie setted for 6 hour
@@ -89,7 +89,7 @@ exports.logout = async (req, res, next) => {
     res
       .cookie('token', null, {
         expires: new Date(Date.now()),
-        maxAge: new Date(Date.now()),
+        // maxAge: new Date(Date.now()),
         // httpOnly: true,
         sameSite: 'None',
         secure: true,

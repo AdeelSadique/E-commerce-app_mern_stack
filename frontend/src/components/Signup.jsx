@@ -21,11 +21,11 @@ function Signup() {
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, { name, email, password, confirmPassword }, {}, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
-        Cookie.set('token', token, {
-          path: '/',
-          expires: 1,
-          secure: true,
-        });
+        // Cookie.set('token', token, {
+        //   path: '/',
+        //   expires: 1,
+        //   secure: true,
+        // });
 
         dispatch(getUser());
         setTimeout(() => {
