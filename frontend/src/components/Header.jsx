@@ -99,7 +99,7 @@ function Header() {
               <IconButton variant={'ghost'} icon={<FaCartArrowDown size={'30'} />} />
             </Tooltip>
           </Link>
-          {Cookies.get('token') && data ? (
+          {data ? (
             <Menu>
               <MenuButton _hover={{ cursor: 'pointer' }} variant={'ghost'} as={Avatar} icon={<Avatar name={data.role} />}></MenuButton>
               <MenuList zIndex={1}>
