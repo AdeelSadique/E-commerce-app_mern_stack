@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Container, HStack, Select, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Button, ButtonGroup, Container, HStack, Select, Table, Tbody, Td, Th, Thead, Tr, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,8 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [checkStatus, setCheckStatus] = useState('');
   const [statusOnUpdate, setStatusOnUpdate] = useState(true);
+const toast = useToast()
+
 
   const updateStatusHandler = (id, status) => {
     axios

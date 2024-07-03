@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import { Cookies, useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../actions/user';
+import { deleteUser, getUser } from '../actions/user';
 // import { isLoading } from '../reducers/userReducer';
 
 function Login() {
@@ -26,13 +26,14 @@ function Login() {
       .then((res) => {
         const { token } = res.data;
         // js-cookie takes values as 1 mean 1 day if want specific we do this
-        Cookie.set('token', token, {
-          path: '/',
-          expires: 1,
-          secure: true,
-        });
+        // Cookie.set('token', token, {
+        //   path: '/',
+        //   expires: 1,
+        //   secure: true,
+        //   sameSite: 'None',
+        // });
 
-        dispatch(getUser());
+        dispatch(deleteUser());
         setTimeout(() => {
           navigate('/auth');
           toast({ title: 'Success', description: 'Successfully Logged In', status: 'success', duration: 3000, isClosable: true });
