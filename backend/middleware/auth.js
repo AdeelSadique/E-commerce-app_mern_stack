@@ -20,8 +20,9 @@ exports.rolesAuthentication = (...roles) => {
     try {
       if (!roles.includes(req.user.role)) {
         next(new ErrorHandler('Admin only can access', 403));
+      } else {
+        next();
       }
-      next();
     } catch (error) {
       next(error);
     }
