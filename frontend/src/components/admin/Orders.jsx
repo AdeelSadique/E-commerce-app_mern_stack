@@ -7,8 +7,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [checkStatus, setCheckStatus] = useState('');
   const [statusOnUpdate, setStatusOnUpdate] = useState(true);
-const toast = useToast()
-
+  const toast = useToast();
 
   const updateStatusHandler = (id, status) => {
     axios
@@ -40,7 +39,7 @@ const toast = useToast()
     statusOnUpdate
       ? axios
           .get(
-            `${import.meta.env.VITE_BACKEND_URL}/allOrders?status=${checkStatus}`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/allOrders?status=${checkStatus}`,
             {
               withCredentials: true,
             },
