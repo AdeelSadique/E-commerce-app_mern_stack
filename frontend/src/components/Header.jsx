@@ -55,16 +55,16 @@ function Header() {
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
-          Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
-          dispatch(deleteUser());
-          navigate('/login');
+          // Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
+          // dispatch(deleteUser());
+          // navigate('/login');
           toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
           console.log('too many requests');
         }
         toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
-        Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
-        dispatch(deleteUser());
-        navigate('/login');
+        // Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
+        // dispatch(deleteUser());
+        // navigate('/login');
         console.log(err);
       });
   };
