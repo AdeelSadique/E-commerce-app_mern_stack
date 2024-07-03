@@ -17,13 +17,14 @@ const Auth = () => {
   // dispatch(getUser());
 
   useEffect(() => {
-    const isLogged = Cookies.get('token');
+    // const isLogged = Cookies.get('token');
 
-    if (isLogged) {
-      dispatch(getUser());
-    } else {
-      navigate('/login');
-    }
+    dispatch(getUser());
+    // if (isLogged) {
+    //   dispatch(getUser());
+    // } else {
+    //   navigate('/login');
+    // }
   }, [dispatch]);
 
   return (
