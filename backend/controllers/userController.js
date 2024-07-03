@@ -54,7 +54,7 @@ exports.login = async (req, res, next) => {
           const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
           const cookieOptions = {
             // httpOnly: true,
-            expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             sameSite: 'None',
             secure: true,
             path: '/',
@@ -91,8 +91,8 @@ exports.logout = async (req, res, next) => {
     res.cookie('logout time', 'token');
     res
       .cookie('token', '', {
-        // expires: new Date(0),
-        maxAge: new Date(0),
+        expires: new Date(0),
+        // maxAge: new Date(0),
         // httpOnly: true,
         sameSite: 'None',
         secure: true,
