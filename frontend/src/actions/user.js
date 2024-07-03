@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export const getUser = createAsyncThunk('user/getUser', async () => {
   try {
@@ -12,8 +13,10 @@ export const getUser = createAsyncThunk('user/getUser', async () => {
 export const deleteUser = createAsyncThunk('user/deleteUser', async () => {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, { withCredentials: true });
+    Cookies.remove('token', { path: '/', secure: true });
     return data;
   } catch (error) {
+    Cookies.remove('token', { path: '/', secure: true });
     throw Error(error.message);
   }
 });

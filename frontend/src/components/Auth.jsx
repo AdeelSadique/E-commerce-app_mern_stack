@@ -17,24 +17,13 @@ const Auth = () => {
   // dispatch(getUser());
 
   useEffect(() => {
-    dispatch(getUser());
-    // const isLogged = Cookies.get('token');
+    const isLogged = Cookies.get('token');
 
-    // if (isLogged && data) {
-    //   setTimeout(() => {
-    //     if (data.role === 'admin') {
-    //       navigate('/admin/dashboard');
-    //     } else {
-    //       navigate('/user/dashboard');
-    //     }
-    //   });
-    // } else {
-    //   navigate('/login');
-    // }
-
-    // setInterval(() => {
-    //   navigate('/login');
-    // }, 21600);
+    if (isLogged) {
+      dispatch(getUser());
+    } else {
+      navigate('/login');
+    }
   }, [dispatch]);
 
   return (

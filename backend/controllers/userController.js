@@ -16,11 +16,11 @@ exports.register = async (req, res, next) => {
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
       const cookieOptions = {
-        expires: new Date(Date.now() + 60 * 60 + 24 * 1000),
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
         secure: true,
         sameSite: 'None',
         path: '/',
-        maxAge: new Date(Date.now() + 60 * 60 + 24 * 1000),
+        maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
       };
 
       // cookie setted for 6 hour
@@ -53,11 +53,11 @@ exports.login = async (req, res, next) => {
           const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
           const cookieOptions = {
             // httpOnly: true,
-            expires: new Date(Date.now() + 60 * 60 + 24 * 1000),
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             sameSite: 'None',
             secure: true,
             path: '/',
-            maxAge: new Date(Date.now() + 60 * 60 + 24 * 1000),
+            maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
           };
 
           // cookie setted for 6 hour

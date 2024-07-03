@@ -38,7 +38,6 @@ function Header() {
     }
   };
   const logoutHandler = () => {
-    Cookies.remove('token', { path: '/', expires: new Date(Date.now()), secure: true });
     dispatch(deleteUser());
     toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
     navigate('/login');
