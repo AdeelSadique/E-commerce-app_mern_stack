@@ -35,6 +35,7 @@ function Login() {
 
         dispatch(deleteUser());
         setTimeout(() => {
+          dispatch(getUser());
           navigate('/auth');
           toast({ title: 'Success', description: 'Successfully Logged In', status: 'success', duration: 3000, isClosable: true });
         }, 1000);
