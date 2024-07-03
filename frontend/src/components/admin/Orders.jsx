@@ -89,7 +89,7 @@ const Orders = () => {
             <Th>More</Th>
           </Thead>
           <Tbody>
-            {orders.map((order, i) => (
+            {orders && orders.map((order, i) => (
               <Tr>
                 <Td>{i + 1}</Td>
                 <Td>{order._id}</Td>

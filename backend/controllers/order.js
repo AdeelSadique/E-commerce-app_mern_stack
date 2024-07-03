@@ -74,7 +74,7 @@ exports.findOrder = async (req, res, next) => {
 exports.allOrders = async (req, res, next) => {
   const { status } = req.query;
   try {
-    if (status != '') {
+    if (status) {
       const orders = await orderModel.find({ status });
       if (!orders) {
         next(new ErrorHandler('Orders not found', 404));
