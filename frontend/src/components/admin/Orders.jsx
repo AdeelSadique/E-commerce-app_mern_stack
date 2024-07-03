@@ -19,12 +19,12 @@ const Orders = () => {
         }
       )
       .then((res) => {
-        // console.log(res.data);
-        toast({ title: 'Success', description: 'Successfully Order Updated', status: 'success', duration: 3000, isClosable: true });
-        setStatusOnUpdate(true);
+        console.log(res.data);
+        // toast({ title: 'Success', description: 'Successfully Order Updated', status: 'success', duration: 3000, isClosable: true });
+        // setStatusOnUpdate(true);
       })
       .catch((err) => {
-        toast({ title: 'Error', description: 'Failed to Update Order', status: 'error', duration: 3000, isClosable: true });
+        // toast({ title: 'Error', description: 'Failed to Update Order', status: 'error', duration: 3000, isClosable: true });
         console.log(err);
       });
   };
@@ -89,29 +89,30 @@ const Orders = () => {
             <Th>More</Th>
           </Thead>
           <Tbody>
-            {orders && orders.map((order, i) => (
-              <Tr>
-                <Td>{i + 1}</Td>
-                <Td>{order._id}</Td>
-                <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
-                <Td color={order.status === 1 ? 'yellow.400' : order.status === 2 ? 'green' : 'red'}>
-                  {order.status === 1 ? 'Shipped' : order.status === 2 ? 'Delivered' : 'Processing'}
-                </Td>
-                <Td color={order.paidStatus === 0 ? 'red' : 'green'}>{order.paidStatus === 1 ? 'Paid' : 'Pending'}</Td>
-                <Td>
-                  <Select size={'xs'} w={'100px'} onChange={(e) => updateStatusHandler(order._id, e.target.value)}>
-                    <option defaultChecked>Choose</option>
-                    <option value={1}>Shipped</option>
-                    <option value={2}>Delivered</option>
-                  </Select>
-                </Td>
-                <Td>
-                  <Link to={`/orderDetails/${order._id}`}>
-                    <Button>Details</Button>
-                  </Link>
-                </Td>
-              </Tr>
-            ))}
+            {orders &&
+              orders.map((order, i) => (
+                <Tr>
+                  <Td>{i + 1}</Td>
+                  <Td>{order._id}</Td>
+                  <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
+                  <Td color={order.status === 1 ? 'yellow.400' : order.status === 2 ? 'green' : 'red'}>
+                    {order.status === 1 ? 'Shipped' : order.status === 2 ? 'Delivered' : 'Processing'}
+                  </Td>
+                  <Td color={order.paidStatus === 0 ? 'red' : 'green'}>{order.paidStatus === 1 ? 'Paid' : 'Pending'}</Td>
+                  <Td>
+                    <Select size={'xs'} w={'100px'} onChange={(e) => updateStatusHandler(order._id, e.target.value)}>
+                      <option defaultChecked>Choose</option>
+                      <option value={1}>Shipped</option>
+                      <option value={2}>Delivered</option>
+                    </Select>
+                  </Td>
+                  <Td>
+                    <Link to={`/orderDetails/${order._id}`}>
+                      <Button>Details</Button>
+                    </Link>
+                  </Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       </Container>
