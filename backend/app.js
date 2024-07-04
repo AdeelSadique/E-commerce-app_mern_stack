@@ -13,7 +13,7 @@ const dotenv = require('dotenv');
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(path.resolve(), 'public')));
-app.use('./public', express.static(path.join(path.resolve(), './public')));
+// app.use('./public', express.static(path.join(path.resolve(), './public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
