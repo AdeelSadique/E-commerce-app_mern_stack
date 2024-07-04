@@ -90,15 +90,13 @@ exports.getUserDetail = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
-    console.log('logout time', token);
     const options = {
       expires: new Date(0),
       httpOnly: true,
       sameSite: 'None',
       secure: true,
       path: '/',
-      // domain: new URL(process.env.BACKEND_URL).hostname,
+      domain: new URL(process.env.BACKEND_URL).hostname,
     };
 
     res.clearCookie('token', options).status(200).json({
