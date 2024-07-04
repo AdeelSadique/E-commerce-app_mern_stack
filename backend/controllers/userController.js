@@ -88,7 +88,8 @@ exports.getUserDetail = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
-    res.cookie('logout time', 'token');
+    const { token } = req.cookies;
+    console.log('logout time', token);
     res
       .cookie('token', '', {
         expires: new Date(0),

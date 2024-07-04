@@ -39,6 +39,16 @@ function Header() {
   };
   const logoutHandler = () => {
     dispatch(deleteUser());
+
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
     navigate('/login');
   };
