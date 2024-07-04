@@ -40,10 +40,10 @@ export const userSlice = createSlice({
         state.failed = action.payload;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.data = {};
+        state.data = null;
       })
       .addCase(deleteUser.rejected, (state, action) => {
-        state.data = {};
+        state.data = null;
       });
   },
 });

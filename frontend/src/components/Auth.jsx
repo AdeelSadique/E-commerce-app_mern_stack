@@ -18,26 +18,18 @@ const Auth = () => {
 
   useEffect(() => {
     // const isLogged = Cookies.get('token');
-
     dispatch(getUser());
-    // if (isLogged) {
-    //   dispatch(getUser());
-    // } else {
-    //   navigate('/login');
-    // }
-  }, [dispatch]);
+
+    setTimeout(() => {
+      {
+        data && data.role === 'admin' ? navigate('/admin/dashboard') : data && data.role === 'user' ? navigate('/user/dashboard') : navigate('/login');
+      }
+    }, 1000);
+  }, []);
 
   return (
     <>
-      {loading ? (
-        <h1>Authenticating</h1>
-      ) : data && data.role === 'admin' ? (
-        navigate('/admin/dashboard')
-      ) : data && data.role === 'user' ? (
-        navigate('/user/dashboard')
-      ) : (
-        navigate('/login')
-      )}
+      <h1>Authenticating</h1>
     </>
   );
 };

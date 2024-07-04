@@ -32,19 +32,17 @@ const Orders = () => {
     setCheckStatus(status);
     setStatusOnUpdate(true);
   };
+  console.log(orders);
 
   useEffect(() => {
     const cancelToken = axios.CancelToken.source();
     // checkstatus is initially empty so it will fetch all orders and then with status
     statusOnUpdate
       ? axios
-          .get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/allOrders?status=${checkStatus}`,
-            {
-              withCredentials: true,
-            },
-            { cancelToken: cancelToken }
-          )
+          .get(`${import.meta.env.VITE_BACKEND_URL}/api/allOrders?status=${checkStatus}`, {
+            withCredentials: true,
+            cancelToken: cancelToken.token,
+          })
           .then((res) => {
             setOrders(res.data.orders);
             setStatusOnUpdate(false);
@@ -52,8 +50,9 @@ const Orders = () => {
           .catch((err) => {
             if (axios.isCancel(err)) {
               console.log('too many requests');
+            } else {
+              console.log(err);
             }
-            console.log(err);
           })
       : '';
 
@@ -61,11 +60,12 @@ const Orders = () => {
       cancelToken.cancel();
     };
   }, [checkStatus, statusOnUpdate]);
+
   return (
     <>
       <Container maxW={'full'} bgColor={'whitesmoke'}>
         <HStack w={'full'} justifyContent={'space-between'} p={4}>
-          <Button colorScheme='orange' onClick={window.history.back()}>
+          <Button colorScheme='orange' onClick={() => window.history.back()}>
             Back
           </Button>
           <ButtonGroup colorScheme='orange' variant={'outline'}>
@@ -89,55 +89,56 @@ const Orders = () => {
             <Th>More</Th>
           </Thead>
           <Tbody>
-            {orders &&
-              orders.map((order, i) => (
-                <Tr>
-                  <Td>{i + 1}</Td>
-                  <Td>{order._id}</Td>
-                  <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
-                  <Td color={order.status === 1 ? 'yellow.400' : order.status === 2 ? 'green' : 'red'}>
-                    {order.status === 1 ? 'Shipped' : order.status === 2 ? 'Delivered' : 'Processing'}
-                  </Td>
-                  <Td color={order.paidStatus === 0 ? 'red' : 'green'}>{order.paidStatus === 1 ? 'Paid' : 'Pending'}</Td>
-                  <Td>
-                    <Select size={'xs'} w={'100px'} onChange={(e) => updateStatusHandler(order._id, e.target.value)}>
-                      <option defaultChecked>Choose</option>
-                      <option value={1}>Shipped</option>
-                      <option value={2}>Delivered</option>
-                    </Select>
-                  </Td>
-                  <Td>
-                    <Link to={`/orderDetails/${order._id}`}>
-                      <Button>Details</Button>
-                    </Link>
-                  </Td>
-                </Tr>
-              ))}
+            {orders
+              ? orders.map((order, i) => (
+                  <Tr key={i}>
+                    <Td>{i + 1}</Td>
+                    <Td>{order._id}</Td>
+                    <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
+                    <Td color={order.status === 1 ? 'yellow.400' : order.status === 2 ? 'green' : 'red'}>
+                      {order.status === 1 ? 'Shipped' : order.status === 2 ? 'Delivered' : 'Processing'}
+                    </Td>
+                    <Td color={order.paidStatus === 0 ? 'red' : 'green'}>{order.paidStatus === 1 ? 'Paid' : 'Pending'}</Td>
+                    <Td>
+                      <Select size={'xs'} w={'100px'} onChange={(e) => updateStatusHandler(order._id, e.target.value)}>
+                        <option defaultChecked>Choose</option>
+                        <option value={1}>Shipped</option>
+                        <option value={2}>Delivered</option>
+                      </Select>
+                    </Td>
+                    <Td>
+                      <Link to={`/orderDetails/${order._id}`}>
+                        <Button>Details</Button>
+                      </Link>
+                    </Td>
+                  </Tr>
+                ))
+              : ''}
           </Tbody>
         </Table>
       </Container>
     </>
   );
 };
-const TrComponent = ({ order, i }) => (
-  <Tr>
-    <Td>{i + 1}</Td>
-    <Td>{order._id}</Td>
-    <Td>{order.product._id}</Td>
-    <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
-    <Td color={order.status === 1 ? 'yellow.400' : order.status === 2 ? 'green' : 'red'}>
-      {order.status === 1 ? 'Shipped' : order.status === 2 ? 'Delivered' : 'Processing'}
-    </Td>
-    <Td>
-      <Select size={'xs'} w={'100px'}>
-        <option defaultChecked>Choose</option>
-        <option>Shipped</option>
-        <option>Delivered</option>
-      </Select>
-    </Td>
-    <Td>
-      <Button>Manage</Button>
-    </Td>
-  </Tr>
-);
+// const TrComponent = ({ order, i }) => (
+//   <Tr>
+//     <Td>{i + 1}</Td>
+//     <Td>{order._id}</Td>
+//     <Td>{order.product._id}</Td>
+//     <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
+//     <Td color={order.status === 1 ? 'yellow.400' : order.status === 2 ? 'green' : 'red'}>
+//       {order.status === 1 ? 'Shipped' : order.status === 2 ? 'Delivered' : 'Processing'}
+//     </Td>
+//     <Td>
+//       <Select size={'xs'} w={'100px'}>
+//         <option defaultChecked>Choose</option>
+//         <option>Shipped</option>
+//         <option>Delivered</option>
+//       </Select>
+//     </Td>
+//     <Td>
+//       <Button>Manage</Button>
+//     </Td>
+//   </Tr>
+// );
 export default Orders;

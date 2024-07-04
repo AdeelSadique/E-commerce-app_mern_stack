@@ -52,7 +52,6 @@ function Header() {
     toast({ title: 'Success', description: 'Successfully Logged out', status: 'success', duration: 3000, isClosable: true });
     navigate('/login');
   };
-
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);

@@ -8,7 +8,7 @@ function Profile() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser());
-  }, dispatch);
+  }, [dispatch]);
 
   return (
     <>

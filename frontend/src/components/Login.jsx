@@ -6,11 +6,9 @@ import Cookie from 'js-cookie';
 import { Cookies, useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser, getUser } from '../actions/user';
-// import { isLoading } from '../reducers/userReducer';
 
 function Login() {
   const { loading, failed } = useSelector((state) => state.user);
-  // const { isFailed, isLoading, user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,35 +17,16 @@ function Login() {
   const dispatch = useDispatch();
   const loginHandler = () => {
     const cancelToken = axios.CancelToken.source();
-    // dispatch(isLoading());
-    // Cookie.remove('token', { path: '/', expires: new Date(Date.now()) });
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, { email, password }, { withCredentials: true }, { cancelToken: cancelToken })
       .then((res) => {
         const { token } = res.data;
-        // js-cookie takes values as 1 mean 1 day if want specific we do this
-        // Cookie.set('token', token, {
-        //   path: '/',
-        //   expires: 1,
-        //   secure: true,
-        //   sameSite: 'None',
-        // });
 
-        // dispatch(deleteUser());
         dispatch(getUser());
         setTimeout(() => {
           navigate('/auth');
           toast({ title: 'Success', description: 'Successfully Logged In', status: 'success', duration: 3000, isClosable: true });
         }, 1000);
-
-        // const isLogged = Cookie.get('token');
-        // setTimeout(() => {
-        // }, 1000);
-        // if (isLogged) {
-        // } else {
-        //   navigate('/login');
-        //   toast({ title: 'Error', description: 'Try Again', status: 'error', duration: 3000, isClosable: true });
-        // }
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
