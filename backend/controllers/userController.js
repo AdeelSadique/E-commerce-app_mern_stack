@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const cookie = require('cookie-parser');
 const { sendMail } = require('../util/sendMail');
+const cookieParser = require('cookie-parser');
 
 exports.register = async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
@@ -20,7 +21,8 @@ exports.register = async (req, res, next) => {
         secure: true,
         sameSite: 'None',
         path: '/',
-        domain: process.env.BACKEND_URL,
+        httpOnly: true,
+        // domain: process.env.BACKEND_URL,
         // maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
       };
 
@@ -53,12 +55,12 @@ exports.login = async (req, res, next) => {
         } else {
           const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
           const cookieOptions = {
-            // httpOnly: true,
+            httpOnly: true,
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             sameSite: 'None',
             secure: true,
             path: '/',
-            domain: process.env.BACKEND_URL,
+            // domain: process.env.BACKEND_URL,
             // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
@@ -94,11 +96,11 @@ exports.logout = async (req, res, next) => {
       .cookie('token', '', {
         expires: new Date(0),
         // maxAge: new Date(0),
-        // httpOnly: true,
+        httpOnly: true,
         sameSite: 'None',
         secure: true,
         path: '/',
-        domain: process.env.BACKEND_URL,
+        // domain: process.env.BACKEND_URL,
       })
       .status(200)
       .json({
