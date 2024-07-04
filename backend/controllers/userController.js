@@ -56,11 +56,11 @@ exports.login = async (req, res, next) => {
           const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
           const cookieOptions = {
             httpOnly: true,
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-            path: '/',
+            maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            // path: '/',
             sameSite: 'None',
             secure: true,
-            domain: new URL(process.env.BACKEND_URL).hostname,
+            // domain: new URL(process.env.BACKEND_URL).hostname,
             // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
@@ -88,12 +88,12 @@ exports.getUserDetail = async (req, res, next) => {
 exports.logout = async (req, res, next) => {
   try {
     const options = {
-      expires: new Date(0),
+      maxAge: new Date(0),
       httpOnly: true,
       sameSite: 'None',
       secure: true,
-      path: '/',
-      domain: new URL(process.env.BACKEND_URL).hostname,
+      // path: '/',
+      // domain: new URL(process.env.BACKEND_URL).hostname,
     };
 
     res.clearCookie('token', options).status(200).json({
