@@ -22,7 +22,7 @@ exports.register = async (req, res, next) => {
         sameSite: 'None',
         path: '/',
         httpOnly: true,
-        domain: process.env.BACKEND_URL,
+        domain: new URL(process.env.BACKEND_URL).hostname,
         // maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
       };
 
@@ -60,7 +60,7 @@ exports.login = async (req, res, next) => {
             sameSite: 'None',
             secure: true,
             path: '/',
-            domain: process.env.BACKEND_URL,
+            domain: new URL(process.env.BACKEND_URL).hostname,
             // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
@@ -100,7 +100,7 @@ exports.logout = async (req, res, next) => {
         sameSite: 'None',
         secure: true,
         path: '/',
-        domain: process.env.BACKEND_URL,
+        domain: new URL(process.env.BACKEND_URL).hostname,
       })
       .status(200)
       .json({
