@@ -107,7 +107,15 @@ exports.logout = async (req, res, next) => {
     //     success: true,
     //     message: 'logged out',
     //   });
-    res.clearCookie('token').status(200).json({
+    const options = {
+      expires: new Date(0),
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+      path: '/',
+      domain: new URL(process.env.BACKEND_URL).hostname,
+    };
+    res.clearCookie('token', options).status(200).json({
       success: true,
       message: 'logged out',
     });
