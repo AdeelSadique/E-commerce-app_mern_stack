@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const cookie = require('cookie-parser');
 const { sendMail } = require('../util/sendMail');
-const cookieParser = require('cookie-parser');
 
 exports.register = async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
@@ -55,12 +54,12 @@ exports.login = async (req, res, next) => {
         } else {
           const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
           const cookieOptions = {
-            httpOnly: true,
-            maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
-            // path: '/',
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            // httpOnly: true,
+            path: '/',
             sameSite: 'None',
             secure: true,
-            // domain: new URL(process.env.BACKEND_URL).hostname,
+            domain: new URL(process.env.BACKEND_URL).hostname,
             // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
@@ -88,12 +87,12 @@ exports.getUserDetail = async (req, res, next) => {
 exports.logout = async (req, res, next) => {
   try {
     const options = {
-      maxAge: new Date(0),
-      httpOnly: true,
+      expires: new Date(0),
+      // httpOnly: true,
       sameSite: 'None',
       secure: true,
-      // path: '/',
-      // domain: new URL(process.env.BACKEND_URL).hostname,
+      path: '/',
+      domain: new URL(process.env.BACKEND_URL).hostname,
     };
 
     res.clearCookie('token', options).status(200).json({
