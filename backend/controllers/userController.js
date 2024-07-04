@@ -65,10 +65,7 @@ exports.login = async (req, res, next) => {
           };
 
           // cookie setted for 6 hour
-          res
-            .status(200)
-            .cookie('token', token, { ...cookieOptions })
-            .json({ success: true, token });
+          res.status(200).cookie('token', token, cookieOptions).json({ success: true, token });
         }
       }
     }
