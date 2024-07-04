@@ -21,7 +21,7 @@ exports.register = async (req, res, next) => {
         sameSite: 'None',
         path: '/',
         httpOnly: true,
-        domain: 'e-commerce-mern-backend-theta.vercel.app',
+        domain: new URL(process.env.BACKEND_URL).hostname,
         // maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
       };
 
@@ -59,7 +59,7 @@ exports.login = async (req, res, next) => {
             path: '/',
             sameSite: 'None',
             secure: true,
-            domain: 'e-commerce-mern-backend-theta.vercel.app',
+            domain: new URL(process.env.BACKEND_URL).hostname,
             // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
@@ -92,13 +92,17 @@ exports.logout = async (req, res, next) => {
       sameSite: 'None',
       secure: true,
       path: '/',
-      domain: 'e-commerce-mern-backend-theta.vercel.app',
+      domain: new URL(process.env.BACKEND_URL).hostname,
     };
 
-    res.clearCookie('token', options).status(200).json({
+    res.cookie('token', '', options).status(200).json({
       success: true,
       message: 'logged out',
     });
+    // res.clearCookie('token', options).status(200).json({
+    //   success: true,
+    //   message: 'logged out',
+    // });
   } catch (error) {
     next(error);
   }
