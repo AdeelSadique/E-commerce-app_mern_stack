@@ -83,7 +83,7 @@ const Home = () => {
 
       <Box w={'full'} p={4} bgColor={'whitesmoke'}>
         <Heading size={'md'} w={'15%'} textAlign={'center'} mx={'auto'} borderBottom={'2px'}>
-          Featured Product
+          Featured Products
         </Heading>
         <SimpleGrid templateColumns={'repeat(auto-fill, minmax(260px, 1fr))'} spacing={8} p={10}>
           {data == '' ? (
