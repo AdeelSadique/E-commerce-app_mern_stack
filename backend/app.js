@@ -12,7 +12,7 @@ const dotenv = require('dotenv');
 
 const app = express();
 app.use(express.json());
-// app.use(express.static(path.join(path.resolve(), 'public')));
+app.use(express.static(path.join(path.resolve(), 'public')));
 app.use('./public', express.static(path.join(path.resolve(), './public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -23,7 +23,7 @@ app.use(
   cors({
     credentials: true,
     origin: process.env.FRONT_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'Head', 'Options'],
+    // methods: ['GET', 'POST', 'PUT', 'DELETE', 'Head', 'Options'],
   })
 );
 
