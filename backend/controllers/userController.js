@@ -95,14 +95,10 @@ exports.logout = async (req, res, next) => {
       domain: new URL(process.env.BACKEND_URL).hostname,
     };
 
-    res.cookie('token', '', options).status(200).json({
+    res.clearCookie('token', { path: '/' }).status(200).json({
       success: true,
       message: 'logged out',
     });
-    // res.clearCookie('token', options).status(200).json({
-    //   success: true,
-    //   message: 'logged out',
-    // });
   } catch (error) {
     next(error);
   }
