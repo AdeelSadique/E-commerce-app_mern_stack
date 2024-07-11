@@ -62,10 +62,10 @@ exports.createProduct = async (req, res, next) => {
     let path1 = '';
     let path2 = '';
     if (req.files.length == 2) {
-      path1 = `${process.env.BACKEND_URL}/public/${req.files[0].filename}`;
-      path2 = `${process.env.BACKEND_URL}/public/${req.files[1].filename}`;
+      path1 = `${process.env.BACKEND_URL}/${req.files[0].filename}`;
+      path2 = `${process.env.BACKEND_URL}/${req.files[1].filename}`;
     } else if (req.files.length == 1) {
-      path1 = `${process.env.BACKEND_URL}/public/${req.files[0].filename}`;
+      path1 = `${process.env.BACKEND_URL}/${req.files[0].filename}`;
     } else {
       path1 = '';
       path2 = '';
