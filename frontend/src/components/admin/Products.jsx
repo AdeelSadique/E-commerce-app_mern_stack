@@ -29,7 +29,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { getAllProducts } from '../../actions/products';
+import { deleteProduct, getAllProducts } from '../../actions/products';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import axios from 'axios';
@@ -111,6 +111,14 @@ const Products = () => {
       });
   };
 
+  const productDeleteHandler = (id) => {
+    dispatch(deleteProduct(id));
+    setTimeout(() => {
+      dispatch(getAllProducts(`${import.meta.env.VITE_BACKEND_URL}/api/products?page=${currentPage}`));
+    }, 1000);
+    toast({ title: 'Success', description: 'Product deleted successfully', status: 'success', duration: 3000, isClosable: true });
+  };
+
   const onCloseHandler = () => {
     onClose();
     setUpdateProduct(false);
@@ -152,15 +160,18 @@ const Products = () => {
               <h1>Loading</h1>
             ) : (
               data &&
-              data.map((product) => (
-                <Tr>
+              data.map((product, i) => (
+                <Tr key={i}>
                   <Td>{product._id}</Td>
                   <Td>{product.name.substring(0, 20)}</Td>
                   <Td>{product.price}</Td>
                   <Td color={product.stock === 0 ? 'red' : ''}>{product.stock === 0 ? 'outofstock' : product.stock}</Td>
                   <Td>
-                    <Button size={'xs'} colorScheme='orange' onClick={() => productEditHandler(product._id)}>
+                    <Button size={'xs'} me={1} colorScheme='orange' onClick={() => productEditHandler(product._id)}>
                       Update
+                    </Button>
+                    <Button size={'xs'} colorScheme='orange' onClick={() => productDeleteHandler(product._id)}>
+                      Del
                     </Button>
                   </Td>
                 </Tr>

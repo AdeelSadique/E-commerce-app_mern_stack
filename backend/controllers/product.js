@@ -4,6 +4,7 @@ const ApiFeatures = require('../util/apiFeatures');
 const userModel = require('../models/userModel');
 const path = require('path');
 const multer = require('multer');
+
 const { cloudinaryFileUploader } = require('../util/cloudinary');
 
 // getAllProducts
@@ -57,15 +58,25 @@ exports.getAllStock = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   try {
     req.body.user = req.user.id;
-    // images are not required
-    const path1 = req.files[0] || req.file ? req.files[0].path || req.file.path : '';
-    const path2 = req.files[1] || req.file ? req.files[1].path || req.file.path : '';
-
-    // call the cloudinaryUploader function and pass the path
-    const url1 = await cloudinaryFileUploader(path1);
-    const url2 = await cloudinaryFileUploader(path2);
+    // handling images logic
+    let path1 = '';
+    let path2 = '';
+    if (req.files.length == 2) {
+      path1 = `${process.env.BACKEND_URL}/public/${req.files[0].filename}`;
+      path2 = `${process.env.BACKEND_URL}/public/${req.files[1].filename}`;
+    } else {
+      path1 = `${process.env.BACKEND_URL}/public/${req.files[0].filename}`;
+    }
     const { name, price, stock, description, category, user } = req.body;
-    const product = await Product.create({ name, price, stock, description, category, images: { image1: url1 || '', image2: url2 || '' }, user });
+    const product = await Product.create({
+      name,
+      price,
+      stock,
+      description,
+      category,
+      images: { image1: path1, image2: path2 },
+      user,
+    });
     if (product) {
       product.user = await userModel.findById(product.user);
       res.status(201).json({ success: true, data: product });

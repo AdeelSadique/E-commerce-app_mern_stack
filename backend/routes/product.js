@@ -15,9 +15,9 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }).array('images', 2);
 
-router.route('/products').get(getAllProducts).post(isAuthenticated, rolesAuthentication('admin'), upload.array('images'), createProduct);
+router.route('/products').get(getAllProducts).post(isAuthenticated, rolesAuthentication('admin'), upload, createProduct);
 router.route('/products-getAllStock').get(isAuthenticated, rolesAuthentication('admin'), getAllStock);
 router
   .route('/product/:id')

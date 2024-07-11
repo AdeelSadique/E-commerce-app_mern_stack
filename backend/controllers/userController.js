@@ -17,11 +17,11 @@ exports.register = async (req, res, next) => {
       const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
       const cookieOptions = {
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        secure: true,
+        // secure: true,
         sameSite: 'None',
         path: '/',
         httpOnly: true,
-        domain: new URL(process.env.BACKEND_URL).hostname,
+        // domain: new URL(process.env.BACKEND_URL).hostname,
         // maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
       };
 
@@ -57,9 +57,9 @@ exports.login = async (req, res, next) => {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             httpOnly: true,
             path: '/',
-            sameSite: 'None',
-            secure: true,
-            domain: new URL(process.env.BACKEND_URL).hostname,
+            // sameSite: 'None',
+            // secure: true,
+            // domain: new URL(process.env.BACKEND_URL).hostname,
             // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
@@ -89,10 +89,10 @@ exports.logout = async (req, res, next) => {
     const options = {
       expires: new Date(0),
       httpOnly: true,
-      sameSite: 'None',
-      secure: true,
+      // sameSite: 'None',
+      // secure: true,
       path: '/',
-      domain: new URL(process.env.BACKEND_URL).hostname,
+      // domain: new URL(process.env.BACKEND_URL).hostname,
     };
 
     res.clearCookie('token', { path: '/' }).status(200).json({

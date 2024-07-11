@@ -11,3 +11,13 @@ export const getAllProducts = createAsyncThunk('product/getAllProducts', async (
     // return error.message;
   }
 });
+
+export const deleteProduct = createAsyncThunk('product/deleteProduct', async (id, thunkApi) => {
+  try {
+    await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`, { withCredentials: true });
+    return '';
+  } catch (error) {
+    throw Error(error.message);
+    // return error.message;
+  }
+});
