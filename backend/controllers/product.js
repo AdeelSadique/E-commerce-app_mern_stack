@@ -64,8 +64,11 @@ exports.createProduct = async (req, res, next) => {
     if (req.files.length == 2) {
       path1 = `${process.env.BACKEND_URL}/public/${req.files[0].filename}`;
       path2 = `${process.env.BACKEND_URL}/public/${req.files[1].filename}`;
-    } else {
+    } else if (req.files.length == 1) {
       path1 = `${process.env.BACKEND_URL}/public/${req.files[0].filename}`;
+    } else {
+      path1 = '';
+      path2 = '';
     }
     const { name, price, stock, description, category, user } = req.body;
     const product = await Product.create({
