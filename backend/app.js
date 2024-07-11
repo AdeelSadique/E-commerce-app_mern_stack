@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 // app.use('/public', express.static(path.join(path.resolve(), 'public')));
 // app.use('/public', express.static(path.join(process.cwd(), 'public')));
-app.use('/public', express.static(path.join(process.cwd(), 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 dotenv.config({ path: './config/config.env' });
@@ -27,7 +27,7 @@ app.use(
   })
 );
 app.use('/api/products', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'public/index.html'));
+  res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // app.use('/api', product);
