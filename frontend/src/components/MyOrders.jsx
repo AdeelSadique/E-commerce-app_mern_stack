@@ -32,30 +32,31 @@ function MyOrders() {
       <Container maxW={'container.lg'} p={4} bgColor={'whitesmoke'}>
         <Heading my={4}>My Orders</Heading>
 
-        {orders.map((order) => (
-          <VStack bgColor={'white'} mb={4} p={4} borderRadius={'md'}>
-            <HStack w={'full'} justifyContent={'space-between'}>
-              <VStack alignItems={'flex-start'}>
-                <Text>#{order._id}</Text>
-                <Text>Placed at {new Date(order.createdAt).toLocaleString()}</Text>
-              </VStack>
-              <Link to={`/orderDetails/${order._id}`}>
-                <Button size={'sm'} colorScheme='orange'>
-                  Manage
-                </Button>
-              </Link>
-            </HStack>
-            <Divider />
-            <HStack w={'full'} justifyContent={'space-between'}>
-              <HStack w={'full'}>
-                <Image aspectRatio={4 / 4} w={'20'} borderRadius={'md'} src={order.product.images[0].image1} />
-                <Text noOfLines={2}>{order.product.name.substring(0, 240)}</Text>
+        {orders &&
+          orders.map((order) => (
+            <VStack bgColor={'white'} mb={4} p={4} borderRadius={'md'}>
+              <HStack w={'full'} justifyContent={'space-between'}>
+                <VStack alignItems={'flex-start'}>
+                  <Text>#{order._id}</Text>
+                  <Text>Placed at {new Date(order.createdAt).toLocaleString()}</Text>
+                </VStack>
+                <Link to={`/orderDetails/${order._id}`}>
+                  <Button size={'sm'} colorScheme='orange'>
+                    Manage
+                  </Button>
+                </Link>
               </HStack>
-              <Text w={'full'}> Qty: {order.quantity}</Text>
-              <Tag w={'40'}>{order.status === 2 ? 'Delivered' : order.status === 1 ? 'Shipped' : 'Processing'}</Tag>
-            </HStack>
-          </VStack>
-        ))}
+              <Divider />
+              <HStack w={'full'} justifyContent={'space-between'}>
+                <HStack w={'full'}>
+                  <Image aspectRatio={4 / 4} w={'20'} borderRadius={'md'} src={order.product && order.product.images[0].image1} />
+                  <Text noOfLines={2}>{order.product && order.product.name.substring(0, 240)}</Text>
+                </HStack>
+                <Text w={'full'}> Qty: {order.quantity}</Text>
+                <Tag w={'40'}>{order.status === 2 ? 'Delivered' : order.status === 1 ? 'Shipped' : 'Processing'}</Tag>
+              </HStack>
+            </VStack>
+          ))}
       </Container>
     </>
   );
