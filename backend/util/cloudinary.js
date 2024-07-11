@@ -8,12 +8,12 @@ const fs = require('fs');
 //   api_secret: process.env.CLOUD_API_SECRET,
 // });
 
-exports.cloudinaryFileUploader = async (localPath) => {
+exports.cloudinaryFileUploader = async (file) => {
   try {
-    if (!localPath) {
-      console.log('path not found');
+    if (!file) {
+      console.log('file not found');
     } else {
-      const res = await cloudinary.uploader.upload(localPath, {
+      const res = await cloudinary.uploader.upload(file, {
         resource_type: 'auto',
         cloud_name: process.env.CLOUD_NAME,
         api_key: process.env.CLOUD_API_KEY,
@@ -22,7 +22,7 @@ exports.cloudinaryFileUploader = async (localPath) => {
       return res.url;
     }
   } catch (error) {
-    fs.unlinkSync(localPath);
+    // fs.unlinkSync(file);
     return error;
   }
 };

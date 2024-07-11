@@ -59,13 +59,17 @@ exports.createProduct = async (req, res, next) => {
   try {
     req.body.user = req.user.id;
     // handling images logic
+
     let path1 = '';
     let path2 = '';
     if (req.files.length == 2) {
-      path1 = `${process.env.BACKEND_URL}/${req.files[0].filename}`;
-      path2 = `${process.env.BACKEND_URL}/${req.files[1].filename}`;
+      path1 = await cloudinaryFileUploader(req.files[0]);
+      path2 = await cloudinaryFileUploader(req.files[1]);
+      // path1 = `${process.env.BACKEND_URL}/${req.files[0].filename}`;
+      // path2 = `${process.env.BACKEND_URL}/${req.files[1].filename}`;
     } else if (req.files.length == 1) {
-      path1 = `${process.env.BACKEND_URL}/${req.files[0].filename}`;
+      path1 = await cloudinaryFileUploader(req.files[0]);
+      // path1 = `${process.env.BACKEND_URL}/${req.files[0].filename}`;
     } else {
       path1 = '';
       path2 = '';
