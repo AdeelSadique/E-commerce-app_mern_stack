@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 // app.use('/public', express.static(path.join(path.resolve(), 'public')));
 // app.use('/public', express.static(path.join(process.cwd(), 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../backend/public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 dotenv.config({ path: './config/config.env' });
