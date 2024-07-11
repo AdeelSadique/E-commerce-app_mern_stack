@@ -65,7 +65,7 @@ exports.createProduct = async (req, res, next) => {
       path1 = `${process.env.BACKEND_URL}/public/images/${req.files[0].filename}`;
       path2 = `${process.env.BACKEND_URL}/public/images/${req.files[1].filename}`;
     } else {
-      path1 = `${process.env.BACKEND_URL}/public/images/${req.files[0].filename}`;
+      path1 = `/public/images/${req.files[0].filename}`;
     }
     const { name, price, stock, description, category, user } = req.body;
     const product = await Product.create({
