@@ -8,17 +8,17 @@ const router = express.Router();
 
 // logic to handle images while uploading
 // const uploadpath = path.join(__dirname, '../public');
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, uploadpath);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, Date.now() + path.extname(file.originalname));
-//   },
-// });
-// const upload = multer({ storage: storage }).array('images', 2);
+const storage = multer.diskStorage({
+  // destination: (req, file, cb) => {
+  //   cb(null, uploadpath);
+  // },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage: storage }).array('images', 2);
 
-router.route('/products').get(getAllProducts).post(isAuthenticated, rolesAuthentication('admin'), createProduct);
+router.route('/products').get(getAllProducts).post(isAuthenticated, rolesAuthentication('admin'), upload, createProduct);
 router.route('/products-getAllStock').get(isAuthenticated, rolesAuthentication('admin'), getAllStock);
 router
   .route('/product/:id')
