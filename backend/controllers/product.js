@@ -63,14 +63,14 @@ exports.createProduct = async (req, res, next) => {
     let path1 = '';
     let path2 = '';
     if (req.files.length == 2) {
-      path1 = cloudinaryFileUploader(req.files[0].path);
-      path2 = cloudinaryFileUploader(req.files[1].path);
+      path1 = await cloudinaryFileUploader(req.files[0].path);
+      path2 = await cloudinaryFileUploader(req.files[1].path);
 
       // for localhost only
       // path1 = `${process.env.BACKEND_URL}/${req.files[0].filename}`;
       // path2 = `${process.env.BACKEND_URL}/${req.files[1].filename}`;
     } else if (req.files.length == 1) {
-      path1 = cloudinaryFileUploader(req.files[0].path);
+      path1 = await cloudinaryFileUploader(req.files[0].path);
     } else {
       path1 = '';
       path2 = '';
