@@ -57,7 +57,6 @@ exports.getAllStock = async (req, res, next) => {
 // new product creation
 exports.createProduct = async (req, res, next) => {
   try {
-    console.log(req.files);
     req.body.user = req.user.id;
     // handling images logic
     let path1 = '';
