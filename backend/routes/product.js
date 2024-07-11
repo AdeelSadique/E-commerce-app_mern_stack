@@ -7,8 +7,7 @@ const process = require('process');
 const router = express.Router();
 
 // logic to handle images while uploading
-const uploadpath = path.join(process.cwd(), 'backend/public');
-console.log('product msg', uploadpath);
+const uploadpath = path.join(process.cwd(), 'public');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadpath);
