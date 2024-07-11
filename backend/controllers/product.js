@@ -143,9 +143,6 @@ exports.deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
     if (product) {
-      await cloudinary.uploader.destroy(product.images.image1);
-      await cloudinary.uploader.destroy(product.images.image2);
-
       const response = await Product.deleteOne(product);
       res.status(200).json({ success: true, data: response });
     } else {
