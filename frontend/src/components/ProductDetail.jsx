@@ -7,11 +7,14 @@ import image2 from '../assets/react.svg';
 import { Carousel } from 'react-responsive-carousel';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 
 function ProductDetail() {
   const { productID } = useParams();
   const [findProduct, setFindProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const { data } = useSelector((state) => state.user);
+
   const quantityHandler = (mode) => {
     if (mode === '+') {
       quantity >= findProduct.stock ? setQuantity(findProduct.stock) : setQuantity((q) => q + 1);
@@ -62,7 +65,7 @@ function ProductDetail() {
   useEffect(() => {
     const cancelToken = axios.CancelToken.source();
     axios
-      .get(`http://127.0.0.1:4000/api/product/${productID}`, {}, { cancelToken: cancelToken })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/product/${productID}`, {}, { cancelToken: cancelToken })
       .then((data) => {
         const { product } = data.data;
         setFindProduct(product);
@@ -139,7 +142,7 @@ function ProductDetail() {
                 </Button>
 
                 {/* if not logged we w'll redirect to login poge */}
-                {!Cookies.get('token') ? (
+                {!data ? (
                   <Link to={'/login'}>
                     <Button colorScheme='orange' w={'full'}>
                       Login First

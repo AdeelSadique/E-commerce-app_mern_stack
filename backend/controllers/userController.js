@@ -17,19 +17,15 @@ exports.register = async (req, res, next) => {
       const token = jwt.sign({ id: user._id }, process.env.JWTSECRETKEY);
       const cookieOptions = {
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        secure: true,
-        sameSite: 'None',
-        path: '/',
         httpOnly: true,
+        path: '/',
+        sameSite: 'None',
+        secure: true,
         // domain: new URL(process.env.BACKEND_URL).hostname,
-        // maxAge: new Date(Date.now() + 24 * 60 * 60 * 1000),
       };
 
       // cookie setted for 6 hour
-      res
-        .status(200)
-        .cookie('token', token, { ...cookieOptions })
-        .json({ success: true, token });
+      res.status(200).cookie('token', token, cookieOptions).json({ success: true, token });
     } else {
       next(new ErrorHandler('User Registeration Failed', 400));
     }
@@ -60,7 +56,6 @@ exports.login = async (req, res, next) => {
             sameSite: 'None',
             secure: true,
             // domain: new URL(process.env.BACKEND_URL).hostname,
-            // maxAge: new Date(Date.now() + 1 * 60 * 60 * 1000),
           };
 
           // cookie setted for 6 hour
@@ -89,9 +84,9 @@ exports.logout = async (req, res, next) => {
     const options = {
       expires: new Date(0),
       httpOnly: true,
+      path: '/',
       sameSite: 'None',
       secure: true,
-      path: '/',
       // domain: new URL(process.env.BACKEND_URL).hostname,
     };
 

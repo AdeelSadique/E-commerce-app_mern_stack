@@ -38,23 +38,21 @@ function Cart() {
           <Heading size={'sm'}>Quantity</Heading>
           <Heading size={'sm'}>Subtotal</Heading>
         </HStack>
-        {cart?.map((p) => (
-          <CartComponent product={p} setPageReloadOnDelede={setPageReloadOnDelede} />
-        ))}
+        {cart ? cart.map((p) => <CartComponent product={p} setPageReloadOnDelede={setPageReloadOnDelede} />) : <Heading size={'sm'}>Cart is empty</Heading>}
       </Container>
     </Fragment>
   );
 }
 const CartComponent = ({ product, setPageReloadOnDelede }) => {
   const [quantity, setQuantity] = useState(1);
-  const [subTotal, setSubTotal] = useState(product.price);
+  const [subTotal, setSubTotal] = useState(product && product.price);
   const quantityHandler = (mode) => {
     if (mode === '+') {
-      if (quantity >= product.stock) {
-        setQuantity(product.stock || 1);
+      if (quantity >= product && product.stock) {
+        setQuantity((product && product.stock) || 1);
       } else {
         setQuantity((q) => q + 1);
-        setSubTotal(subTotal + product.price);
+        setSubTotal(subTotal + product && product.price);
       }
 
       // setPriceChange(() => product.price * quantity);
@@ -100,11 +98,11 @@ const CartComponent = ({ product, setPageReloadOnDelede }) => {
       <HStack p={2} w={'full'}>
         <VStack w={'full'}>
           <HStack>
-            <Image src={product.images[0].image1} w={'30%'} />
+            <Image src={product && product.images[0].image1} w={'30%'} />
             <VStack>
-              <Text>{product.name}</Text>
-              <Text>{product.price}</Text>
-              <Button size={'xs'} variant={'link'} colorScheme='red' onClick={() => deleteHandler(product._id)}>
+              <Text>{product && product.name}</Text>
+              <Text>{product && product.price}</Text>
+              <Button size={'xs'} variant={'link'} colorScheme='red' onClick={() => deleteHandler(product && product._id)}>
                 Delete Item
               </Button>
             </VStack>
@@ -123,7 +121,7 @@ const CartComponent = ({ product, setPageReloadOnDelede }) => {
 
         <VStack w={'full'} spacing={4}>
           <Heading size={'sm'} alignSelf={'flex-end'}>
-            RS {product.price}
+            RS {product && product.price}
           </Heading>
           <Divider borderColor={'orange.500'} />
           <HStack w={'full'} justifyContent={'space-between'}>
@@ -131,12 +129,12 @@ const CartComponent = ({ product, setPageReloadOnDelede }) => {
             <Heading size={'sm'}>{Math.abs(subTotal).toFixed(2)}</Heading>
           </HStack>
 
-          {product.stock == 0 ? (
+          {product && product.stock == 0 ? (
             <Button size={'sm'} colorScheme='orange' w={'full'} isDisabled>
               outStock
             </Button>
           ) : (
-            <Link to={`placeOrder/${[product._id, quantity]}`}>
+            <Link to={`placeOrder/${[product && product._id, quantity]}`}>
               <Button size={'sm'} colorScheme='orange' w={'full'}>
                 Checkout
               </Button>

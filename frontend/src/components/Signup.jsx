@@ -18,15 +18,19 @@ function Signup() {
   const signupHandler = () => {
     const cancelToken = axios.CancelToken.source();
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, { name, email, password, confirmPassword }, {}, { cancelToken: cancelToken })
+      .post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/register`,
+        { name, email, password, confirmPassword },
+        { withCredentials: true, cancelToken: cancelToken.token }
+      )
       .then((res) => {
         const { token } = res.data;
 
         dispatch(getUser());
         setTimeout(() => {
           navigate('/auth');
+          toast({ title: 'Success', description: 'Successfully Registered', status: 'success', duration: 3000, isClosable: true });
         }, 1000);
-        toast({ title: 'Success', description: 'Successfully Registered', status: 'success', duration: 3000, isClosable: true });
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
