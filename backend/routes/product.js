@@ -3,10 +3,11 @@ const { getAllProducts, createProduct, findProduct, updateProduct, deleteProduct
 const { isAuthenticated, rolesAuthentication } = require('../middleware/auth');
 const path = require('path');
 const multer = require('multer');
+const process = require('process');
 const router = express.Router();
 
 // logic to handle images while uploading
-const uploadpath = path.join(path.resolve(), 'public');
+const uploadpath = path.join(process.cwd(), 'public');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadpath);
